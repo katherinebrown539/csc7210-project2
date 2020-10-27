@@ -70,4 +70,4 @@ def getDataGenerators(data_file):
 
     return train_generator, val_generator, test_generator
 
-getDataGenerators(data_file="data/diabetes/trainLabels.csv")
+getDataGenerators(data_file="data/trainLabels.csv")
