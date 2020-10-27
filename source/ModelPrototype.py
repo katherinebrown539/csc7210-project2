@@ -12,7 +12,8 @@ import DiabetesData
 
 #get diabetes dataloaders
 train_generator, val_generator, test_generator = DiabetesData.getDataGenerators(data_file="data/trainLabels.csv")
-
+batch_size = 1000
+epochs = 1
 #generate model
 base_model = keras.applications.VGG16(weights='imagenet', include_top=False)
 x = base_model.output
@@ -31,8 +32,14 @@ for layer in base_model.layers:
     layer.trainable = False
 
 model.compile(loss="binary_crossentropy", optimizer='adam', metrics=['accuracy'])
-model.fit_generator()
 
 
 #fit model
+model.fit(x=train_generator, 
+          batch_size=batch_size,
+          epochs=epochs)
 
+# Evaluate the model on the test data using `evaluate`
+print("Evaluate on test data")
+results = model.evaluate(test_generator)
+print("test loss, test acc:", results)
