@@ -11,7 +11,7 @@ def getDataGenerators(data_file):
     #use sklearn to split data into training, test, val
     df = pd.read_csv(data_file)
     x = 'image'
-    y = 'label'
+    y = 'level'
     pth = 'data/diabetes/'
     img_size = (224,224)
     batch_size = 1000
