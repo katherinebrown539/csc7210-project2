@@ -30,6 +30,8 @@ model = Model(inputs=base_model.input, outputs=predictions)
 for layer in base_model.layers:
     layer.trainable = False
 
+model.compile(loss="binary_crossentropy", optimizer='adam', metrics=['accuracy'])
+model.fit_generator()
 
 
 #fit model

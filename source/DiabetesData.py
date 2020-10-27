@@ -12,6 +12,9 @@ def getDataGenerators(data_file):
     df = pd.read_csv(data_file)
     x = 'image'
     y = 'level'
+    df.loc[df[y] >= 2, "level_new"] = 1
+    df.loc[df[y] < 2, "level_new"] = 0
+    y = "level_new"
     df[y] = df[y].astype(str)
     pth = 'data/diabetes/'
     img_size = (224,224)
