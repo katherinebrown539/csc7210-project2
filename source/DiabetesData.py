@@ -12,6 +12,7 @@ def getDataGenerators(data_file):
     df = pd.read_csv(data_file)
     x = 'image'
     y = 'level'
+    df[y] = df[y].astype(str)
     pth = 'data/diabetes/'
     img_size = (224,224)
     batch_size = 1000
