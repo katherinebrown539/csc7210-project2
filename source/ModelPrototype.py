@@ -15,7 +15,7 @@ train_generator, val_generator, test_generator = DiabetesData.getDataGenerators(
 batch_size = 1000
 epochs = 1
 #generate model
-base_model = keras.applications.VGG16(weights='imagenet', include_top=False)
+base_model = keras.applications.DenseNet121(weights='imagenet', include_top=False)
 x = base_model.output
 # let's add a fully-connected layer
 x = Dense(1024, activation='relu')(x)
