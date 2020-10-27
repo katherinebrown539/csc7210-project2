@@ -71,4 +71,10 @@ def getDataGenerators(data_file):
 
     return train_generator, val_generator, test_generator
 
-getDataGenerators(data_file="data/trainLabels.csv")
+train_generator, val_generator, test_generator = getDataGenerators(data_file="data/trainLabels.csv")
+
+x,y = train_generator.next()
+for i in range(0,3):
+    image = x[i]
+    label = y[i]
+    print (label)
