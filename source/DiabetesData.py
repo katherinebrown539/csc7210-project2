@@ -18,7 +18,7 @@ def getDataGenerators(data_file):
     batch_size = 1000
 
     train, test_df = train_test_split(df, test_size = 0.1, random_state=random.randint(1,100))
-    train_df, val = train_test_split(train, test_size=0.1, random_state=random.randint(1,100))
+    train_df, val_df = train_test_split(train, test_size=0.1, random_state=random.randint(1,100))
 
     #create data generators
 
