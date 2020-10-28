@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Conv2D, Dropout, MaxPooling2D, Dense
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Conv2D, Dropout, MaxPooling2D, Dense, Activation
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
