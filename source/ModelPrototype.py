@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-from tensorflow.keras.models import Model
+from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Conv2D, Dropout, MaxPooling2D, Dense
 import numpy as np
 import pandas as pd
@@ -15,7 +15,7 @@ train_generator, val_generator, test_generator = DiabetesData.getDataGenerators(
 batch_size = 16
 epochs = 1
 
-model = Model.Sequential()
+model = Sequential()
         
 model.add(Conv2D(32, 7, strides=(2,2), activation="relu", input_shape=input_shape_))
 model.add(Dropout(0.2))
