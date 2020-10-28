@@ -18,7 +18,7 @@ def getDataGenerators(data_file):
     df[y] = df[y].astype(str)
     pth = 'data/diabetes/'
     img_size = (224,224)
-    batch_size = 1000
+    batch_size = 16
 
     train, test_df = train_test_split(df, test_size = 0.1, random_state=random.randint(1,100))
     train_df, val_df = train_test_split(train, test_size=0.1, random_state=random.randint(1,100))

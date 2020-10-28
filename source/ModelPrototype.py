@@ -12,7 +12,7 @@ import DiabetesData
 
 #get diabetes dataloaders
 train_generator, val_generator, test_generator = DiabetesData.getDataGenerators(data_file="data/trainLabels.csv")
-batch_size = 1000
+batch_size = 16
 epochs = 1
 #generate model
 base_model = keras.applications.DenseNet121(weights='imagenet', include_top=False)
