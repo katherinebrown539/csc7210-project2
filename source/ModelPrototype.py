@@ -14,7 +14,7 @@ import DiabetesData
 train_generator, val_generator, test_generator = DiabetesData.getDataGenerators(data_file="data/trainLabels.csv")
 batch_size = 16
 epochs = 1
-
+input_shape_=(3,224,224)
 model = Sequential()
         
 model.add(Conv2D(32, 7, strides=(2,2), activation="relu", input_shape=input_shape_))
