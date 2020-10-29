@@ -23,7 +23,7 @@ from PIL import Image
 # Visualizations
 import matplotlib.pyplot as plt
 
-from DiabetesModelPT as DiabetesModel
+from DiabetesModelPT import DiabetesModel
 
 task = ([0,1], (2,3,4))
 # task = ([0,1,2], (3,4))
