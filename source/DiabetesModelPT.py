@@ -42,16 +42,17 @@ class DiabetesModel(nn.Module):
 
     def fit(self, train_generator, validation_generator=None, n_epochs=50):
         for epoch in range(n_epochs):
-            print(epoch+1,"/", n_epochs)
             self.train()
-            for local_batch, local_labels in train_generator:
-                print(local_batch.shape)
-                self.optimizer.zero_grad() #test comment
-                local_batch, local_labels = local_batch.to(self.device), local_labels.to(self.device)
-                output = self.forward(local_batch)
-                loss = self.criterion(output, local_labels.squeeze())
-                loss.backward()
-                self.optimizer.step()
+            with tqdm(total=len(train_generator)) as pbar:
+                for local_batch, local_labels in train_generator:
+                    print(local_batch.shape)
+                    self.optimizer.zero_grad() #test comment
+                    local_batch, local_labels = local_batch.to(self.device), local_labels.to(self.device)
+                    output = self.forward(local_batch)
+                    loss = self.criterion(output, local_labels.squeeze())
+                    loss.backward()
+                    self.optimizer.step()
+                    pbar.update(1)
                 
     def predict(self, generator):
         self.eval()
