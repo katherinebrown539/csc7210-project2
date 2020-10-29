@@ -1,83 +1,139 @@
-import pandas as pd
+# PyTorch Imports
+from torchvision import transforms
+from torch.utils.data import Dataset
+import torch
+# Data Science | Image Tools | MatplotLib
 import numpy as np
-import sys
-import os
-import random
-from pathlib import Path
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import pandas as pd
+import os, sys, shutil, time, argparse
 
-def getDataGenerators(data_file):
-    #use sklearn to split data into training, test, val
-    df = pd.read_csv(data_file)
-    x = 'image'
-    y = 'level'
-    df.loc[df[y] >= 2, "level_new"] = 1
-    df.loc[df[y] < 2, "level_new"] = 0
-    y = "level_new"
-    df[y] = df[y].astype(str)
-    pth = 'data/diabetes/'
-    img_size = (224,224)
-    batch_size = 16
+# Image manipulations
+from PIL import Image
 
-    train, test_df = train_test_split(df, test_size = 0.1, random_state=random.randint(1,100))
-    train_df, val_df = train_test_split(train, test_size=0.1, random_state=random.randint(1,100))
+class DiabeticData(Dataset):
+    '''
+        Class to process a custom image dataset. Particularly, this class is designed to handle the 
+        Chest XRay data https://stanfordmlgroup.github.io/competitions/chexpert/
 
-    #create data generators
+        Class Variables:
+            * data_frame: this is a dataframe containing the relative file paths and labels 
+            * test: boolean; True => this dataset does not have labels, only image paths
+            * root_dir: string pointing to the root of the image directory, paths in the data_frame are to be
+                        concatenated to this value to yield the correct path
+            * transform: A pytorch transform pipeline of preprocessing operations to conduct to prepare
+                         the image for the model
+            * 
+    '''
+    def __init__(self,df,root_dir,transform_key=None, task="multi", test = False):
+        '''
+            Constructor for Dataset class. This method assigns the class variables based on the parameters
 
-    # Base train/validation generator
-    _datagen = ImageDataGenerator(
-        rescale=1./255.,
-        validation_split=0.25,
-        featurewise_center=False,
-        featurewise_std_normalization=False,
-        rotation_range=90,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        horizontal_flip=True,
-        vertical_flip=True
-        )
-    # Train generator
-    train_generator = _datagen.flow_from_dataframe(
-        dataframe=train_df,
-        directory=pth,
-        x_col=x,
-        y_col=y,
-        batch_size=batch_size,
-        shuffle=True,
-        class_mode="categorical",
-        target_size=img_size)
-    print('Train generator created')
-    # Validation generator
-    val_generator = _datagen.flow_from_dataframe(
-        dataframe=val_df,
-        directory=pth,
-        x_col=x,
-        y_col=y,
-        batch_size=batch_size,
-        shuffle=True,
-        class_mode="categorical",
-        target_size=img_size)    
-    print('Validation generator created')
-    # Test generator
-    _test_datagen=ImageDataGenerator(rescale=1./255.)
-    test_generator = _test_datagen.flow_from_dataframe(
-        dataframe=test_df,
-        directory=pth,
-        x_col=x,
-        y_col=y,
-        batch_size=batch_size,
-        shuffle=True,
-        class_mode="categorical",
-        target_size=img_size)     
-    print('Test generator created')
+            Parameters
+                * df: this is a dataframe containing the relative file paths and labels 
+                * root_dir: string pointing to the root of the image directory, paths in the data_frame are to be
+                            concatenated to this value to yield the correct path
+                * transform: Optional; A pytorch transform pipeline of preprocessing operations to conduct to prepare
+                             the image for the model; if None/no argument provided, method define_image_transforms is called
+                * task: defines whether binary classification of diabetic retinopathy severity or a binary classification
+                            "multi" => each class is one-hot encoded as a vector
+                            tuple => tuple[0] is negative class tuple[1] is positive class
+                * test: OPTIONAL; boolean; True => this dataset does not have labels, only image paths
+        '''
+        self.data_frame = df #passing dataframe instead of csv file because of train/test split
+        print(self.data_frame)
+        self.test = test 
+        self.root_dir = root_dir
+        self.transform = self.define_image_transforms(transform_key)
+        self.task = task
+        print("task = {0}".format(task))
+        #image data 
+       
+    def define_image_transforms(self, key):
+        '''
+            This function defines the pipeline of preprocessing operations that is required for an image
+            to be processed by a model
 
-    return train_generator, val_generator, test_generator
+            No parameters
 
-train_generator, val_generator, test_generator = getDataGenerators(data_file="data/trainLabels.csv")
+            Upon Completion:
+                * A dictionary with pipelines for training, validation, and testing data are returned
+                * The pipeline includes (1) resizing the image to 224x224
+                                        (2) converting the image to a pytorch tensor
+                                        (3) normalizing the image (this is required; idk why)
+        '''
+        image_transforms = {
+            "train":
+            transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ]),
+            "valid":
+            transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ]),
+            "test":
+            transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ])
+        }   
+        return image_transforms[key]
 
-x,y = train_generator.next()
-for i in range(0,3):
-    image = x[i]
-    label = y[i]
-    print (label)
+    def __len__(self):
+        '''
+            Method inherited from Pytorch Dataset class
+            Returns the number of items in the datset
+        '''
+        return self.data_frame.shape[0]
+    
+    def __getitem__(self, idx):
+        '''
+            Method inherited from Pytorch Dataset class
+            Returns a given image based on the index passed
+
+            Parameters:
+                * idx: integer corresponding to the location of a particular image in the dataframe
+
+            Upon completion, this method will open the image based on the "Path" column and return the image and the label,
+            if self.test == False
+        '''
+
+        #print(self.task)
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+  
+        image_name = os.path.join(self.root_dir,
+                                self.data_frame.loc[idx, "image"])
+        
+        with Image.open(image_name) as img:
+            img = Image.open(image_name)
+            img = img.convert('RGB')
+        #print(img.shape)
+            img_tensor = self.transform(img)
+        if not self.test:
+            image_label = self.data_frame.loc[idx, "level"]
+            i=0
+            if self.task == "multi" or self.task =="level":
+                #return one-hot encoded tensor
+                label_tensor = torch.tensor(image_label, dtype=torch.long)
+                image_label = label_tensor.clone()
+            else:
+
+                if image_label in self.task[0]:
+                    # print("{0}, 0".format(image_label))
+                    label_tensor = torch.tensor(0, dtype=torch.long)
+                    image_label = label_tensor.clone()
+                else:
+                    # print("{0}, 1".format(image_label))
+                    label_tensor = torch.tensor(1, dtype=torch.long)
+                    image_label = label_tensor.clone()
+            return(img_tensor, image_label)
+        return (img_tensor)
+
