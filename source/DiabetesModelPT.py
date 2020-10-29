@@ -45,6 +45,7 @@ class DiabetesModel(nn.Module):
             print(epoch+1,"/", n_epochs)
             self.train()
             for local_batch, local_labels in train_generator:
+                print(local_batch.shape)
                 self.optimizer.zero_grad() #test comment
                 local_batch, local_labels = local_batch.to(self.device), local_labels.to(self.device)
                 output = self.forward(local_batch)
