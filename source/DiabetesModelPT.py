@@ -32,6 +32,7 @@ class DiabetesModel(nn.Module):
         if torch.cuda.is_available():
             self.to('cuda')
             self.device = 'cuda'
+        print(self.device)
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = optim.SGD(self.parameters(), lr=0.0005, momentum=0.985, nesterov=True)
         summary(self.model, input_size=(3,224,224))
