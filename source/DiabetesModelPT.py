@@ -45,7 +45,6 @@ class DiabetesModel(nn.Module):
             self.train()
             with tqdm(total=len(train_generator)) as pbar:
                 for local_batch, local_labels in train_generator:
-                    print(local_batch.shape)
                     self.optimizer.zero_grad() #test comment
                     local_batch, local_labels = local_batch.to(self.device), local_labels.to(self.device)
                     output = self.forward(local_batch)
