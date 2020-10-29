@@ -27,6 +27,8 @@ from DiabetesModelPT import DiabetesModel
 from DiabetesData import DiabeticData
 
 task = ([0,1], (2,3,4))
+batch_size=16
+epochs = 5
 root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
@@ -44,9 +46,16 @@ data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_d
         'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, task = task),
         }
 
+ dataloaders = {
+            'train': DataLoader(data['train'], batch_size=batch_size, shuffle=True)
+            'valid': DataLoader(data['valid'], batch_size=batch_size, shuffle=True)
+            'test': DataLoader(data['test'], batch_size=1, shuffle=True)
+        } 
+
+
 model = DiabetesModel()
 
-model.fit(data['train'], n_epochs=5)
+model.fit(dataloaders['train'], n_epochs=epochs)
 pred, true = model.predict(data['test'])
 
 labels = [p >= 0.5 for p in pred]
