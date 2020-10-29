@@ -24,6 +24,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 from DiabetesModelPT import DiabetesModel
+from DiabetesData import DiabeticData
 
 task = ([0,1], (2,3,4))
 # task = ([0,1,2], (3,4))
