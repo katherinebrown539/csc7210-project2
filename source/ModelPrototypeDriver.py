@@ -56,7 +56,7 @@ dataloaders = {
 model = DiabetesModel()
 
 model.fit(dataloaders['train'], n_epochs=epochs)
-pred, true = model.predict(data['test'])
+pred, true = model.predict(dataloaders['test'])
 
 labels = [p >= 0.5 for p in pred]
 print(accuracy_score(true, labels))
