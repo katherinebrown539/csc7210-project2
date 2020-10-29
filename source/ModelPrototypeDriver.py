@@ -47,8 +47,8 @@ data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_d
         }
 
 dataloaders = {
-        'train': DataLoader(data['train'], batch_size=batch_size, shuffle=True)
-        'valid': DataLoader(data['valid'], batch_size=batch_size, shuffle=True)
+        'train': DataLoader(data['train'], batch_size=batch_size, shuffle=True),
+        'valid': DataLoader(data['valid'], batch_size=batch_size, shuffle=True),
         'test': DataLoader(data['test'], batch_size=1, shuffle=True)
 } 
 
