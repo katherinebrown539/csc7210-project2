@@ -34,7 +34,7 @@ class DiabetesModel(nn.Module):
             self.device = 'cuda'
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = optim.SGD(self.parameters(), lr=0.0005, momentum=0.985, nesterov=True)
-    
+        summary(self.model, input_size=(3,224,224))
     def forward(self, x):
         x = self.model(x)
         # x = F.relu(x)
