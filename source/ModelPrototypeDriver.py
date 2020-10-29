@@ -27,6 +27,7 @@ from DiabetesModelPT import DiabetesModel
 from DiabetesData import DiabeticData
 
 task = ([0,1], (2,3,4))
+root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
 data = pd.read_csv("data/trainLabels.csv")
@@ -38,9 +39,9 @@ train = train.reset_index()
 test = test.reset_index()
 val = val.reset_index()
 
-data = {'train': DiabeticData(df = train, transform_key="train", root_dir=self.root_dir, task = task),
-        'valid': DiabeticData(df = val, transform_key="valid", root_dir=self.root_dir, task = task),
-        'test': DiabeticData(df = test, transform_key="test", root_dir=self.root_dir, task = task),
+data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task),
+        'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task),
+        'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, task = task),
         }
 
 model = DiabetesModel()
