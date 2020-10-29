@@ -25,6 +25,7 @@ import matplotlib.pyplot as plt
 
 class DiabetesModel(nn.Module):
     def __init__(self):
+        super(DiabetesModel, self).__init__()
         self.model = models.densenet121(pretrained=True)
         self.model.classifier = nn.Linear(1024, 2)
         self.device = 'cpu'
