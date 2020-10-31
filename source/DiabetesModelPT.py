@@ -73,7 +73,7 @@ class DiabetesModel(nn.Module):
                 probability = probability.cpu().numpy()
                 target = target.cpu().numpy()
 
-                probabilities.extend(probability[:,2])
+                probabilities.extend(probability[:,1])
                 correct.extend(target)
 
         return probabilities, correct
