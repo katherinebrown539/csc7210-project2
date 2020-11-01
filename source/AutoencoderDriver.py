@@ -72,7 +72,7 @@ dataiter = iter(dataloaders["valid"])
 images, labels = dataiter.next()
 images = images.to(device)
 # get sample outputs
-output = model.forward(images)
+output = model(images)
 # output = F.softmax(output)
 # prep images for display
 images = images.cpu().numpy()

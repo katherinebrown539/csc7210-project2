@@ -85,7 +85,7 @@ class ConvAutoencoder(nn.Module):
                     # clear the gradients of all optimized variables
                     self.optimizer.zero_grad()
                     # forward pass: compute predicted outputs by passing inputs to the model
-                    outputs = model(images)
+                    outputs = self.forward(images)
                     # calculate the loss
                     loss = self.criterion(outputs, images)
                     # backward pass: compute gradient of the loss with respect to model parameters
