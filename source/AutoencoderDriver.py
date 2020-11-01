@@ -2,6 +2,7 @@
 # coding: utf-8
 
 # ## Define Imports and Determine Device
+import os, sys
 import numpy as np
 import pandas as pd
 import torch
@@ -14,6 +15,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from tqdm import tqdm
+os.sys.path.insert(0, ".")
 from DiabetesData import DiabeticData
 from Autoencoder import ConvAutoencoder
 
