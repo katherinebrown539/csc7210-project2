@@ -19,13 +19,15 @@ class ConvAutoencoder(nn.Module):
         ## encoder layers ##
 
         #Encoder
-        self.conv1 = nn.Conv2d(3, 16, 3, padding=1)  
-        self.conv2 = nn.Conv2d(16, 4, 3, padding=1)
+        self.conv1 = nn.Conv2d(3, 32, 3, padding=1)  
+        self.conv2 = nn.Conv2d(32,16, 3, padding=1)
+        self.conv3 = nn.Conv2d(16, 4, 3, padding=1)
         self.pool = nn.MaxPool2d(2, 2)
        
         #Decoder
         self.t_conv1 = nn.ConvTranspose2d(4, 16, 2, stride=2)
-        self.t_conv2 = nn.ConvTranspose2d(16, 3, 2, stride=2)
+        self.t_conv2 = nn.ConvTranspose2d(16, 32, 2, stride=2)
+        self.t_conv3 = nn.ConvTranspose2d(32, 3, 2, stride=2)
         
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
         self.criterion = nn.MSELoss() # nn.BCELoss()
@@ -37,8 +39,11 @@ class ConvAutoencoder(nn.Module):
         x = self.pool(x)
         x = F.relu(self.conv2(x))
         x = self.pool(x)
+        x = F.relu(self.conv3(x))
+        x = self.pool(x)
         x = F.relu(self.t_conv1(x))
         x = F.relu(self.t_conv2(x))
+        x = F.relu(self.t_conv3(x))
                 
         return x
 
