@@ -30,7 +30,7 @@ class ConvAutoencoder(nn.Module):
         
         ## decoder layers ##
         ## a kernel of 2 and a stride of 2 will increase the spatial dims by 2
-        self.t_conv1 = nn.ConvTranspose2d(4, 16, 2, stride=2)
+        # self.t_conv1 = nn.ConvTranspose2d(4, 16, 2, stride=2)
         self.t_conv2 = nn.ConvTranspose2d(16, 32, 2, stride=2)
         self.t_conv3 = nn.ConvTranspose2d(32, 64, 2, stride=2)
         self.t_conv4 = nn.ConvTranspose2d(64, 128, 2, stride=2)
@@ -59,7 +59,7 @@ class ConvAutoencoder(nn.Module):
 
         ## decode ##
         # add transpose conv layers, with relu activation function
-        x = F.relu(self.t_conv1(x))
+        # x = F.relu(self.t_conv1(x))
         # output layer (with sigmoid for scaling from 0 to 1)
         x = F.relu(self.t_conv2(x))
         x = F.relu(self.t_conv3(x))
