@@ -63,7 +63,7 @@ class ConvAutoencoder(nn.Module):
         # output layer (with sigmoid for scaling from 0 to 1)
         x = F.relu(self.t_conv2(x))
         x = F.relu(self.t_conv3(x))
-        # x = F.relu(self.t_conv4(x))
+        x = F.relu(self.t_conv4(x))
                 
         return x
 
