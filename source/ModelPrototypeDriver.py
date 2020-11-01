@@ -28,7 +28,7 @@ from DiabetesData import DiabeticData
 
 task = ([0,1], (2,3,4))
 batch_size=16
-epochs = 5
+epochs = 0
 root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 

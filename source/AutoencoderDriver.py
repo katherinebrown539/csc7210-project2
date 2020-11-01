@@ -60,7 +60,7 @@ print(test.shape)
 model = ConvAutoencoder(device)
 print(model)
 
-model.fit(5, dataloaders["train"])
+model.fit(100, dataloaders["train"])
 
 def imshow(img):
     img = img / 2 + 0.5  # unnormalize
