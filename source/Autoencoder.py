@@ -56,14 +56,12 @@ class ConvAutoencoder(nn.Module):
         x = self.pool(x)
         print("conv 3")
     
-
-        ## decode ##
-        # add transpose conv layers, with relu activation function
-        # x = F.relu(self.t_conv1(x))
-        # output layer (with sigmoid for scaling from 0 to 1)
         x = F.relu(self.t_conv2(x))
+        print('transpose 1')
         x = F.relu(self.t_conv3(x))
+        print('transpose 2')
         x = F.relu(self.t_conv4(x))
+        print('transpose 3')
                 
         return x
 
