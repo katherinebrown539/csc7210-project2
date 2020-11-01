@@ -2,10 +2,6 @@
 # coding: utf-8
 
 # ## Define Imports and Determine Device
-
-# In[1]:
-
-
 import numpy as np
 import pandas as pd
 import torch
@@ -21,17 +17,8 @@ from tqdm import tqdm
 from DiabetesData import DiabeticData
 from Autoencoder import ConvAutoencoder
 
-# In[2]:
-
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-
-
-# # read in data
-
-# In[28]:
-
 
 task = ([0,1], [2,3,4])
 batch_size=16
@@ -68,15 +55,7 @@ print(val.shape)
 print(test.shape)
 
 
-# In[4]:
-
-
-
-
-# In[5]:
-
-
-model = ConvAutoencoder(device)
+model = Autoencoder.ConvAutoencoder(device)
 print(model)
 
 model.fit(100, dataloaders["train"])
