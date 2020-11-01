@@ -23,7 +23,7 @@ class ConvAutoencoder(nn.Module):
         self.conv2 = nn.Conv2d(128, 64, 3, padding=1)  
         self.conv3 = nn.Conv2d(64, 32, 3, padding=1)  
         self.conv4 = nn.Conv2d(32, 16, 3, padding=1)  
-        self.conv4 = nn.Conv2d(16, 4, 3, padding=1)  
+        # self.conv4 = nn.Conv2d(16, 4, 3, padding=1)  
         
         # pooling layer to reduce x-y dims by two; kernel and stride of 2
         self.pool = nn.MaxPool2d(2, 2)
@@ -55,18 +55,15 @@ class ConvAutoencoder(nn.Module):
         x = F.relu(self.conv3(x))
         x = self.pool(x)
         print("conv 3")
-        # fourth hidden layer
-        x = F.relu(self.conv4(x))
-        x = self.pool(x)
-        print("conv 4")
-        
+    
+
         ## decode ##
         # add transpose conv layers, with relu activation function
         x = F.relu(self.t_conv1(x))
         # output layer (with sigmoid for scaling from 0 to 1)
         x = F.relu(self.t_conv2(x))
         x = F.relu(self.t_conv3(x))
-        x = F.relu(self.t_conv4(x))
+        # x = F.relu(self.t_conv4(x))
                 
         return x
 
