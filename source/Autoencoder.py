@@ -36,10 +36,10 @@ print(device)
 task = ([0,1], [2,3,4])
 batch_size=16
 epochs = 5
-root_dir = "../data/diabetes"
+root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
-data = pd.read_csv("../data/trainLabels.csv")
+data = pd.read_csv("data/trainLabels.csv")
 # data = data.sample(frac=0.25)
 train, test = train_test_split(data, test_size=0.1)
 train, val = train_test_split(train, test_size=0.1)
@@ -153,10 +153,10 @@ class ConvAutoencoder(nn.Module):
 # In[5]:
 
 
-model = ConvAutoencoder()
+model = ConvAutoencoder(device)
 print(model)
 
-model.fit(5, dataloaders["train"])
+model.fit(100, dataloaders["train"])
 
 def imshow(img):
     img = img / 2 + 0.5  # unnormalize
@@ -164,20 +164,20 @@ def imshow(img):
 
 classes = ['none', 'severe']
 # obtain one batch of test images
-dataiter = iter(dataloaders["test"])
+dataiter = iter(dataloaders["valid"])
 images, labels = dataiter.next()
-
+images = images.to(device)
 # get sample outputs
 output = model(images)
 # output = F.softmax(output)
 # prep images for display
-images = images.numpy()
+images = images.cpu().numpy()
 
 
 # output is resized into a batch of iages
 output = output.view(batch_size, 3, 224, 224)
 # use detach when it's an output that requires_grad
-output = output.detach().numpy()
+output = output.cpu().detach().numpy()
 
 # # plot the first ten input images and then reconstructed images
 # fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
@@ -195,7 +195,7 @@ for idx in np.arange(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(output[idx])
     ax.set_title(classes[labels[idx]])
-    
+plt.savefig("originals.png")    
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
 for idx in np.arange(batch_size):
@@ -203,7 +203,7 @@ for idx in np.arange(batch_size):
     imshow(images[idx])
     ax.set_title(classes[labels[idx]])
 
-plt.savefig("sample.png")
+plt.savefig("autoencoded.png")
 # Now, we loop through the training set and calculate reconstruction loss 
 
 # In[35]:
@@ -212,8 +212,9 @@ plt.savefig("sample.png")
 results = []
 results_cols = ["Image Label", "Reconstruction Loss"]
 for x, y in dataloaders['test']:
-    output = model(x)
-    output = output.detach().numpy()
+    X = x.to(device)
+    output = model(X)
+    output = output.cpu().detach().numpy()
     for i in range(y.shape[0]):
         ls = 0
         image = x[i].numpy()
