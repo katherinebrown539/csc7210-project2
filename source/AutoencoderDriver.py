@@ -60,7 +60,7 @@ print(test.shape)
 model = ConvAutoencoder(device)
 print(model)
 
-model.fit(100, dataloaders["train"])
+model.fit(5, dataloaders["train"])
 
 def imshow(img):
     img = img / 2 + 0.5  # unnormalize
@@ -72,7 +72,7 @@ dataiter = iter(dataloaders["valid"])
 images, labels = dataiter.next()
 images = images.to(device)
 # get sample outputs
-output = model(images)
+output = model.forward(images)
 # output = F.softmax(output)
 # prep images for display
 images = images.cpu().numpy()
