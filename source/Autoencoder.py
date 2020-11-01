@@ -46,15 +46,19 @@ class ConvAutoencoder(nn.Module):
         # and maxpooling after
         x = F.relu(self.conv1(x))
         x = self.pool(x)
+        print("conv 1")
         # add second hidden layer
         x = F.relu(self.conv2(x))
         x = self.pool(x)  
+        print("conv 2")
         # third hidden layer
         x = F.relu(self.conv3(x))
         x = self.pool(x)
+        print("conv 3")
         # fourth hidden layer
         x = F.relu(self.conv4(x))
         x = self.pool(x)
+        print("conv 4")
         
         ## decode ##
         # add transpose conv layers, with relu activation function
