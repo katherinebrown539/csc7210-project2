@@ -57,7 +57,7 @@ print(val.shape)
 print(test.shape)
 
 
-model = Autoencoder.ConvAutoencoder(device)
+model = ConvAutoencoder(device)
 print(model)
 
 model.fit(100, dataloaders["train"])
