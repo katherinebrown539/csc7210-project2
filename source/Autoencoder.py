@@ -43,10 +43,12 @@ class ConvAutoencoder(nn.Module):
         x = self.pool(x)
         x = F.relu(self.conv3(x))
         x = self.pool(x)
+        x = F.relu(self.conv4(x))
+        x = self.pool(x)
         x = F.relu(self.t_conv1(x))
         x = F.relu(self.t_conv2(x))
         x = F.relu(self.t_conv3(x))
-                
+        x = F.relu(self.t_conv4(x))
         return x
 
     def fit(self, n_epochs, train_loader):
