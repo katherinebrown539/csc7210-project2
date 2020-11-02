@@ -49,7 +49,7 @@ data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_d
 dataloaders = {
         'train': DataLoader(data['train'], batch_size=batch_size, shuffle=True),
         'valid': DataLoader(data['valid'], batch_size=batch_size, shuffle=True),
-        'test': DataLoader(data['test'], batch_size=1, shuffle=True)
+        'test': DataLoader(data['test'], batch_size=batch_size, shuffle=True)
 } 
 
 print(train.shape)
@@ -107,7 +107,7 @@ for idx in np.arange(batch_size):
     imshow(images[idx])
     ax.set_title(classes[labels[idx]])
 
-
+dataloaders['test'] = DataLoader(data['test'], batch_size=1, shuffle=True)
 
 results = []
 results_cols = ["Image Label", "Reconstruction Loss"]
