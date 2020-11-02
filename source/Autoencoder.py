@@ -20,8 +20,7 @@ class ConvAutoencoder(nn.Module):
 
         #Encoder
         self.encoder_layers = nn.ModuleList([
-            nn.Conv2d(3, 64, 3, padding=1),
-            nn.Conv2d(64, 32, 3, padding=1), 
+            nn.Conv2d(3, 32, 3, padding=1),
             nn.Conv2d(32,16, 3, padding=1),
             nn.Conv2d(16, 4, 3, padding=1)
         ])
@@ -32,15 +31,14 @@ class ConvAutoencoder(nn.Module):
         self.decoder_layers = nn.ModuleList([
             nn.ConvTranspose2d(4, 16, 2, stride=2),
             nn.ConvTranspose2d(16, 32, 2, stride=2),
-            nn.ConvTranspose2d(32, 64, 2, stride=2),
-            nn.ConvTranspose2d(64, 3, 2, stride=2)
+            nn.ConvTranspose2d(32, 3, 2, stride=2)
         ])
         
-        
+        self.to(device)
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.01)
         self.criterion = nn.MSELoss() # nn.BCELoss()
         self.device = device
-        self.to(device)
+        
 
     def forward(self, x):
         for layer in self.encoder_layers:

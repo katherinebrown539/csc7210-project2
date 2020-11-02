@@ -83,15 +83,6 @@ output = output.view(batch_size, 3, 224, 224)
 # use detach when it's an output that requires_grad
 output = output.cpu().detach().numpy()
 
-# # plot the first ten input images and then reconstructed images
-# fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
-
-# # input images on top row, reconstructions on bottom
-# for images, row in zip([images, output], axes):
-#     for img, ax in zip(images, row):
-#         ax.imshow(np.squeeze(img))
-#         ax.get_xaxis().set_visible(False)
-#         ax.get_yaxis().set_visible(False)
 
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
@@ -99,7 +90,8 @@ for idx in np.arange(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(output[idx])
     ax.set_title(classes[labels[idx]])
-plt.savefig("originals.png")    
+plt.savefig("autoencoded.png")    
+
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
 for idx in np.arange(batch_size):
@@ -107,10 +99,9 @@ for idx in np.arange(batch_size):
     imshow(images[idx])
     ax.set_title(classes[labels[idx]])
 
-plt.savefig("autoencoded.png")
+plt.savefig("original.png")
 # Now, we loop through the training set and calculate reconstruction loss 
 
-# In[35]:
 
 
 results = []
@@ -131,9 +122,6 @@ results = pd.DataFrame(results, columns=results_cols)
 results
 
 
-# In[42]:
-
-
 label_1 = results[results["Image Label"] == 1]
 label_0 = results[results["Image Label"] == 0]
 
@@ -142,16 +130,4 @@ avg_0 = np.mean(label_0.values)
 
 print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
