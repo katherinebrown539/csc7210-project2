@@ -63,7 +63,12 @@ print(model)
 model.fit(epochs, dataloaders["train"])
 
 def imshow(img):
-    img = img / 2 + 0.5  # unnormalize
+    # img = img / 2 + 0.5  # unnormalize
+    inv_normalize = transforms.Normalize(
+    mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
+    std=[1/0.229, 1/0.224, 1/0.255])
+    inv_tensor = inv_normalize(tensor)
+    img = inv_tensor.numpy()
     plt.imshow(np.transpose(img, (1, 2, 0)))
 
 classes = ['none', 'severe']
@@ -86,7 +91,7 @@ output = output.cpu().detach().numpy()
 
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
-for idx in np.arange(batch_size):
+for idx in range(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(output[idx])
     ax.set_title(classes[labels[idx]])
@@ -94,7 +99,7 @@ plt.savefig("autoencoded.png")
 
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
-for idx in np.arange(batch_size):
+for idx in range(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(images[idx])
     ax.set_title(classes[labels[idx]])
