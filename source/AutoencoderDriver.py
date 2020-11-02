@@ -24,7 +24,7 @@ print(device)
 
 task = ([0,1], [2,3,4])
 batch_size=16
-epochs = 1
+epochs = 25
 root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
@@ -81,7 +81,7 @@ images = images.numpy()
 # output is resized into a batch of iages
 output = output.view(batch_size, 3, 224, 224)
 # use detach when it's an output that requires_grad
-output = output.detach().numpy()
+output = output.cpu().detach().numpy()
 
 # # plot the first ten input images and then reconstructed images
 # fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
