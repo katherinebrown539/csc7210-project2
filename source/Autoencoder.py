@@ -37,7 +37,7 @@ class ConvAutoencoder(nn.Module):
         ])
         
         
-        self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=0.01)
         self.criterion = nn.MSELoss() # nn.BCELoss()
         self.device = device
         self.to(device)
