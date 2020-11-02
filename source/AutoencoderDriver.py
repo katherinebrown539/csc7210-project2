@@ -24,7 +24,7 @@ print(device)
 
 task = ([0,1], [2,3,4])
 batch_size=16
-epochs = 1
+epochs = 25
 root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
@@ -63,44 +63,49 @@ print(model)
 model.fit(epochs, dataloaders["train"])
 
 def imshow(img):
-    # img = img / 2 + 0.5  # unnormalize
+    img = img / 2 + 0.5  # unnormalize
     plt.imshow(np.transpose(img, (1, 2, 0)))
 
 classes = ['none', 'severe']
 # obtain one batch of test images
-dataiter = iter(dataloaders["valid"])
+dataiter = iter(dataloaders["test"])
 images, labels = dataiter.next()
-images = images.to(device)
+
 # get sample outputs
 output = model(images)
 # output = F.softmax(output)
 # prep images for display
-images = images.cpu().numpy()
+images = images.numpy()
 
 
 # output is resized into a batch of iages
 output = output.view(batch_size, 3, 224, 224)
 # use detach when it's an output that requires_grad
-output = output.cpu().detach().numpy()
+output = output.detach().numpy()
 
+# # plot the first ten input images and then reconstructed images
+# fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
+
+# # input images on top row, reconstructions on bottom
+# for images, row in zip([images, output], axes):
+#     for img, ax in zip(images, row):
+#         ax.imshow(np.squeeze(img))
+#         ax.get_xaxis().set_visible(False)
+#         ax.get_yaxis().set_visible(False)
 
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
-for idx in range(batch_size):
+for idx in np.arange(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(output[idx])
     ax.set_title(classes[labels[idx]])
-plt.savefig("autoencoded.png")    
-
+    
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
-for idx in range(batch_size):
+for idx in np.arange(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(images[idx])
     ax.set_title(classes[labels[idx]])
-
-plt.savefig("original.png")
-# Now, we loop through the training set and calculate reconstruction loss 
 
 
 
