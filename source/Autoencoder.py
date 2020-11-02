@@ -31,7 +31,8 @@ class ConvAutoencoder(nn.Module):
         self.decoder_layers = nn.ModuleList([
             nn.ConvTranspose2d(4, 16, 2, stride=2),
             nn.ConvTranspose2d(16, 32, 2, stride=2),
-            nn.ConvTranspose2d(32, 3, 2, stride=2)
+            nn.ConvTranspose2d(32, 3, 2, stride=2),
+            nn.Sigmoid()
         ])
         
         self.to(device)
