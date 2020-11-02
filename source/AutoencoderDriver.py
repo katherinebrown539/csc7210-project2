@@ -67,7 +67,7 @@ def imshow(img):
     inv_normalize = transforms.Normalize(
     mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
     std=[1/0.229, 1/0.224, 1/0.255])
-    inv_tensor = inv_normalize(tensor)
+    inv_tensor = inv_normalize(img)
     img = inv_tensor.numpy()
     plt.imshow(np.transpose(img, (1, 2, 0)))
 
