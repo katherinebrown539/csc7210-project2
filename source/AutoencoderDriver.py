@@ -119,7 +119,7 @@ for x, y in dataloaders['test']:
         results.append([label, ls])
 
 results = pd.DataFrame(results, columns=results_cols)
-results
+results.to_csv("reconstruction_error.csv")
 
 
 label_1 = results[results["Image Label"] == 1]
