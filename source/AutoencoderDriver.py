@@ -26,6 +26,7 @@ task = ([0,1,2], [3,4])
 batch_size=16
 epochs = 1000
 root_dir = "data/diabetes"
+normalize=False
 # task = ([0,1,2], (3,4))
 
 data = pd.read_csv("data/trainLabels.csv")
@@ -41,9 +42,9 @@ train = train.reset_index()
 test = test.reset_index()
 val = val.reset_index()
 
-data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task),
-        'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task),
-        'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, task = task)
+data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
+        'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
+        'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, task = task, normalize = normalize)
         }
 
 dataloaders = {

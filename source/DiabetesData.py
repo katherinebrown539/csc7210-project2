@@ -24,7 +24,7 @@ class DiabeticData(Dataset):
                          the image for the model
             * 
     '''
-    def __init__(self,df,root_dir,transform_key=None, task="multi", test = False):
+    def __init__(self,df,root_dir,transform_key=None, task="multi", test = False, normalize=True):
         '''
             Constructor for Dataset class. This method assigns the class variables based on the parameters
 
@@ -43,7 +43,7 @@ class DiabeticData(Dataset):
         print(self.data_frame)
         self.test = test 
         self.root_dir = root_dir
-        self.transform = self.define_image_transforms(transform_key)
+        self.transform = self.define_image_transforms(transform_key, normalize)
         self.task = task
         print("task = {0}".format(task))
         #image data 
@@ -61,29 +61,51 @@ class DiabeticData(Dataset):
                                         (2) converting the image to a pytorch tensor
                                         (3) normalizing the image (this is required; idk why)
         '''
-        image_transforms = {
-            "train":
-            transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ]),
-            "valid":
-            transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ]),
-            "test":
-            transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ])
-        }   
+        if normalize:
+            image_transforms = {
+                "train":
+                transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            ]),
+                "valid":
+                transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            ]),
+                "test":
+                transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            ])
+            } 
+        else:
+            image_transforms = {
+                "train":
+                transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor()
+            ]),
+                "valid":
+                transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor()
+            ]),
+                "test":
+                transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor()
+            ])
+            } 
         return image_transforms[key]
 
     def __len__(self):
