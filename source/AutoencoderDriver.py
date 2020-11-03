@@ -22,7 +22,7 @@ from Autoencoder import ConvAutoencoder
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
-task = ([0,1], [2,3,4])
+task = ([0,1,2], [3,4])
 batch_size=16
 epochs = 1000
 root_dir = "data/diabetes"
