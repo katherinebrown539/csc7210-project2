@@ -24,7 +24,7 @@ print(device)
 
 task = ([0,1,2], [3,4])
 batch_size=16
-epochs = 1000
+epochs = 1
 root_dir = "data/diabetes"
 normalize=False
 # task = ([0,1,2], (3,4))
@@ -34,7 +34,7 @@ data = pd.read_csv("data/trainLabels.csv")
 train, test = train_test_split(data, test_size=0.1)
 train, val = train_test_split(train, test_size=0.1)
 
-train = train[train["level"] < 2]
+train = train[train["level"] < 3]
 print(train)
 #filter out 1s from training set
 
