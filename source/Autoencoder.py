@@ -37,6 +37,7 @@ class ConvAutoencoder(nn.Module):
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
         self.criterion = nn.BCELoss() # nn.BCELoss()
         self.device = device
+        print(self)
         
 
     def forward(self, x):
@@ -52,7 +53,7 @@ class ConvAutoencoder(nn.Module):
     def fit(self, n_epochs, train_loader):
         print("in fit function")
         for epoch in range(1, n_epochs+1):
-            print(epoch)
+            print("Epoch: {0}".format(epoch))
             # monitor training loss
             train_loss = 0.0
             
