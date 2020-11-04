@@ -48,7 +48,7 @@ class DiabeticData(Dataset):
         print("task = {0}".format(task))
         #image data 
        
-    def define_image_transforms(self, key):
+    def define_image_transforms(self, key, normalize=False):
         '''
             This function defines the pipeline of preprocessing operations that is required for an image
             to be processed by a model
