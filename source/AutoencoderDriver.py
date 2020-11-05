@@ -48,9 +48,9 @@ if datatype == "diabetes":
     test = test.reset_index()
     val = val.reset_index()
 
-    data = {'train': DogCatData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
-            'valid': DogCatData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
-            'test': DogCatData(df = test, transform_key="test", root_dir=root_dir, task = task, normalize = normalize)
+    data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
+            'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
+            'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, task = task, normalize = normalize)
             }
 
 
@@ -73,9 +73,9 @@ elif datatype == "dogcat":
     test = test.reset_index()
     val = val.reset_index()
 
-    data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, normalize = normalize),
-            'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, normalize = normalize),
-            'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, normalize = normalize)
+    data = {'train': DogCatData(df = train, transform_key="train", root_dir=root_dir, normalize = normalize),
+            'valid': DogCatData(df = val, transform_key="valid", root_dir=root_dir, normalize = normalize),
+            'test': DogCatData(df = test, transform_key="test", root_dir=root_dir, normalize = normalize)
             }
 
 
