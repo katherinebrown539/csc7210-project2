@@ -27,7 +27,7 @@ batch_size=16
 epochs = 1
 
 normalize=False
-size=224
+size=75
 
 if datatype == "diabetes":
     filename = "data/trainLabels.csv"
@@ -114,7 +114,7 @@ images = images.numpy()
 
 
 # output is resized into a batch of iages
-output = output.view(batch_size, 3, 100, 100)
+output = output.view(batch_size, 3, size, size)
 # use detach when it's an output that requires_grad
 output = output.cpu().detach().numpy()
 
