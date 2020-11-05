@@ -20,7 +20,7 @@ class ConvAutoencoder(nn.Module):
 
         self.encoder_layers = nn.ModuleList([
                 nn.Conv2d(3, 1024, 3, padding=1),
-                nn.Conv2d(1024, 512, 3, padding=1)
+                nn.Conv2d(1024, 512, 3, padding=1),
                 nn.Conv2d(512, 4, 3, padding=1)
             ])
 
