@@ -27,7 +27,7 @@ batch_size=16
 epochs = 1
 
 normalize=False
-size=100
+size=224
 
 if datatype == "diabetes":
     filename = "data/trainLabels.csv"
