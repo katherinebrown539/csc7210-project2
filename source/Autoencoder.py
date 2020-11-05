@@ -19,15 +19,17 @@ class ConvAutoencoder(nn.Module):
         ## encoder layers ##
 
         self.encoder_layers = nn.ModuleList([
-                nn.Conv2d(3, 256, 3, padding=1),
-                nn.Conv2d(256, 4, 3, padding=1)
+                nn.Conv2d(3, 1024, 3, padding=1),
+                nn.Conv2d(1024, 512, 3, padding=1)
+                nn.Conv2d(512, 4, 3, padding=1)
             ])
 
         self.pool = nn.MaxPool2d(2,2)
             #Decoder
         self.decoder_layers = nn.ModuleList([
-            nn.ConvTranspose2d(4, 256, 2, stride=2), 
-            nn.ConvTranspose2d(256, 3, 2, stride=2)
+            nn.ConvTranspose2d(4, 512, 2, stride=2), 
+            nn.ConvTranspose2d(512, 1024, 2, stride=2), 
+            nn.ConvTranspose2d(1024, 3, 2, stride=2)
         ])
         
         self.to(device)
