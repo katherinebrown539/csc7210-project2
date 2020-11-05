@@ -22,7 +22,7 @@ from ConvVarAutoencoder import ConvVAE
 from DogCatData import DogCatData
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-datatype="dogcat"
+datatype="diabetes"
 batch_size=16
 epochs = 1
 
