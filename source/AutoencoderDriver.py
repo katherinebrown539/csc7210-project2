@@ -28,6 +28,7 @@ batch_size=16
 epochs = 1
 root_dir = "data/diabetes"
 normalize=False
+size=100
 # task = ([0,1,2], (3,4))
 
 data = pd.read_csv("data/trainLabels.csv")
@@ -81,7 +82,7 @@ images = images.numpy()
 
 
 # output is resized into a batch of iages
-output = output.view(batch_size, 3, 224, 224)
+output = output.view(batch_size, 3, 100, 100)
 # use detach when it's an output that requires_grad
 output = output.cpu().detach().numpy()
 
