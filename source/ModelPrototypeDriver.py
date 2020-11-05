@@ -26,6 +26,10 @@ import matplotlib.pyplot as plt
 from DiabetesModelPT import DiabetesModel
 from DiabetesData import DiabeticData
 
+
+
+
+
 task = ([0,1], (2,3,4))
 batch_size=16
 epochs = 15

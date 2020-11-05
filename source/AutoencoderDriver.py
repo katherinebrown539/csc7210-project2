@@ -19,35 +19,67 @@ os.sys.path.insert(0, ".")
 from DiabetesData import DiabeticData
 from Autoencoder import ConvAutoencoder
 from ConvVarAutoencoder import ConvVAE
-
+from DogCatData import DogCatData
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-
-task = ([0,1,2], [3,4])
+datatype="dogcat"
 batch_size=16
 epochs = 1
-root_dir = "data/diabetes"
+
 normalize=False
 size=100
-# task = ([0,1,2], (3,4))
 
-data = pd.read_csv("data/trainLabels.csv")
-# data = data.sample(frac=0.25)
-train, test = train_test_split(data, test_size=0.1)
-train, val = train_test_split(train, test_size=0.1)
+if datatype == "diabetes":
+    filename = "data/trainLabels.csv"
+    root_dir = "data/diabetes"
+    task = ([0,1,2], [3,4])
+    # task = ([0,1,2], (3,4))
 
-train = train[train["level"] < 3]
-print(train)
-#filter out 1s from training set
+    data = pd.read_csv(filename)
+    # data = data.sample(frac=0.25)
+    train, test = train_test_split(data, test_size=0.1)
+    train, val = train_test_split(train, test_size=0.1)
 
-train = train.reset_index()
-test = test.reset_index()
-val = val.reset_index()
+    train = train[train["level"] < 3]
+    print(train)
+    #filter out 1s from training set
 
-data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
-        'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
-        'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, task = task, normalize = normalize)
-        }
+    train = train.reset_index()
+    test = test.reset_index()
+    val = val.reset_index()
+
+    data = {'train': DogCatData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
+            'valid': DogCatData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
+            'test': DogCatData(df = test, transform_key="test", root_dir=root_dir, task = task, normalize = normalize)
+            }
+
+
+elif datatype == "dogcat":
+    filename = "data/dogcat.csv"
+    root_dir = "data/dogcat"
+
+    # task = ([0,1,2], (3,4))
+
+    data = pd.read_csv(filename)
+    # data = data.sample(frac=0.25)
+    train, test = train_test_split(data, test_size=0.1)
+    train, val = train_test_split(train, test_size=0.1)
+
+    train = train[train["level"] != 0]
+    print(train)
+    #filter out 1s from training set
+
+    train = train.reset_index()
+    test = test.reset_index()
+    val = val.reset_index()
+
+    data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, normalize = normalize),
+            'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, normalize = normalize),
+            'test': DiabeticData(df = test, transform_key="test", root_dir=root_dir, normalize = normalize)
+            }
+
+
+
 
 dataloaders = {
         'train': DataLoader(data['train'], batch_size=batch_size, shuffle=True),
