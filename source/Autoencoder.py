@@ -21,23 +21,23 @@ class ConvAutoencoder(nn.Module):
         #Encoder
         self.encoder_layers = nn.ModuleList([
             nn.Conv2d(3,512, 2, stride=2),
-            nn.ReLU,
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.BatchNorm2d(512),
 
             nn.Conv2d(in_channels=512, out_channels=256, kernel_size=2, stride=2),
-            nn.ReLU,
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),  # 1/4
             nn.BatchNorm2d(256),
 
             nn.Conv2d(in_channels=256, out_channels=128, kernel_size=2, stride=2),
-            nn.ReLU,
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),  # 1/8
             nn.BatchNorm2d(128),
 
             # conv 4
             nn.Conv2d(in_channels=128, out_channels=64, kernel_size=2, stride=2),
-            nn.ReLU,
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),  #1/16
             nn.BatchNorm2d(64)
 
@@ -49,17 +49,17 @@ class ConvAutoencoder(nn.Module):
         self.decoder_layers = nn.ModuleList([
             # conv 5
             nn.ConvTranspose2d(in_channels=64, out_channels=128, kernel_size=2, stride=2),
-            nn.ReLU,
+            nn.ReLU(),
             nn.BatchNorm2d(128),
 
             # conv 6
             nn.ConvTranspose2d(in_channels=128, out_channels=256, kernel_size=2, stride=2),
-            nn.ReLU,
+            nn.ReLU(),
             nn.BatchNorm2d(256),
 
             # conv 7
             nn.ConvTranspose2d(in_channels=256, out_channels=512, kernel_size=2, stride=2),
-            nn.ReLU,
+            nn.ReLU(),
             nn.BatchNorm2d(512),
 
             # conv 8
