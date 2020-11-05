@@ -29,13 +29,13 @@ class ConvAutoencoder(nn.Module):
 
        
         #Decoder
-        self.decoder_layers = nn.ModuleList([
-            nn.ConvTranspose2d(4, 256, 2, stride=2), 
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-            nn.ConvTranspose2d(256, 3, 2, stride=2),
-            nn.Sigmoid()
-        ])
+    self.decoder_layers = nn.ModuleList([
+        nn.ConvTranspose2d(4, 256, 2, stride=2), 
+        nn.ReLU(),
+        nn.MaxPool2d(2, 2),
+        nn.ConvTranspose2d(256, 3, 2, stride=2),
+        nn.Sigmoid()
+    ])
         
         self.to(device)
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
