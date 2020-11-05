@@ -134,7 +134,6 @@ class DogCatData(Dataset):
         
         with Image.open(image_name) as img:
             img = Image.open(image_name)
-            print(img.size)
             img = img.convert('RGB')
         #print(img.shape)
             img_tensor = self.transform(img)
