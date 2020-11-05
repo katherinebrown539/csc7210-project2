@@ -28,9 +28,9 @@ class ConvVAE(nn.Module):
         self.latent_size = latent_size
 
         self.encoder = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=4, stride=2, padding=1),
+            nn.Conv2d(3, 64, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.Conv2d(64, 128, kernel_size=4, stride=2, padding=1),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
             nn.ReLU(),
             Flatten(),
             nn.Linear(6272, 1024),
@@ -50,9 +50,9 @@ class ConvVAE(nn.Module):
             nn.ReLU(),
             Unflatten(128, 7, 7),
             nn.ReLU(),
-            nn.ConvTranspose2d(128, 64, kernel_size=4, stride=2, padding=1),
+            nn.ConvTranspose2d(128, 64, kernel_size=3, padding=),
             nn.ReLU(),
-            nn.ConvTranspose2d(64, 3, kernel_size=4, stride=2, padding=1),
+            nn.ConvTranspose2d(64, 3, kernel_size=3, padding=),
             nn.Sigmoid()
         )
         self.to(device)
