@@ -80,8 +80,11 @@ class ConvAutoencoder(nn.Module):
 
         # for layer in self.decoder_layers:
         #     x = F.relu(layer(x))
-        x = self.encoder_layers(x)
-        x = self.decoder_layers(x)
+        for layer in self.encoder_layers:
+            x = layer(x)
+
+        for layer in self.decoder_layers:
+            x = layer(x)
         return x
 
     def fit(self, n_epochs, train_loader):
