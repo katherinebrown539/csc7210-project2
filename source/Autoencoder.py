@@ -105,6 +105,7 @@ class ConvAutoencoder(nn.Module):
                     outputs = self.forward(images)
                     # calculate the loss
                     loss = self.criterion(outputs, images)
+                    print(loss)
                     # backward pass: compute gradient of the loss with respect to model parameters
                     loss.backward()
                     # perform a single optimization step (parameter update)
