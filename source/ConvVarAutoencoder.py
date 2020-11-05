@@ -88,7 +88,7 @@ class ConvVAE(nn.Module):
     def fit(self, n_epochs, train_loader):
         self.train()
         train_loss = 0
-        for epoch in epochs:
+        for epoch in n_epochs:
             train_loss_ep = 0
 
             for batch_idx, (data, _) in tqdm(enumerate(train_loader), total=len(train_loader), desc='train'):
