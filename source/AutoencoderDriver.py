@@ -25,7 +25,7 @@ print(device)
 
 task = ([0,1,2], [3,4])
 batch_size=16
-epochs = 25
+epochs = 5
 root_dir = "data/diabetes"
 normalize=False
 # task = ([0,1,2], (3,4))
