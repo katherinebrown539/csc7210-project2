@@ -20,18 +20,50 @@ class ConvAutoencoder(nn.Module):
 
         #Encoder
         self.encoder_layers = nn.ModuleList([
-            nn.Conv2d(3, 256, 3, padding=1),
-            # nn.Conv2d(256, 128, 3, padding=1),
-            nn.Conv2d(256, 4, 3, padding=1)
+            nn.Conv2d(3,512, 2, stride=2),
+            nn.ReLU,
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.BatchNorm2d(512),
+
+            nn.Conv2d(in_channels=512, out_channels=256, kernel_size=2, stride=2),
+            nn.ReLU,
+            nn.MaxPool2d(kernel_size=2, stride=2),  # 1/4
+            nn.BatchNorm2d(256),
+
+            nn.Conv2d(in_channels=256, out_channels=128, kernel_size=2, stride=2),
+            nn.ReLU,
+            nn.MaxPool2d(kernel_size=2, stride=2),  # 1/8
+            nn.BatchNorm2d(128),
+
+            # conv 4
+            nn.Conv2d(in_channels=128, out_channels=64, kernel_size=2, stride=2),
+            nn.ReLU,
+            nn.MaxPool2d(kernel_size=2, stride=2),  #1/16
+            nn.BatchNorm2d(64)
+
         ])
 
         self.pool = nn.MaxPool2d(2, 2)
        
         #Decoder
         self.decoder_layers = nn.ModuleList([
-            nn.ConvTranspose2d(4, 256, 2, stride=2), 
-            # nn.ConvTranspose2d(128, 256, 2, stride=2), 
-            nn.ConvTranspose2d(256, 3, 2, stride=2),
+            # conv 5
+            nn.ConvTranspose2d(in_channels=64, out_channels=128, kernel_size=2, stride=2),
+            nn.ReLU,
+            nn.BatchNorm2d(128),
+
+            # conv 6
+            nn.ConvTranspose2d(in_channels=128, out_channels=256, kernel_size=2, stride=2),
+            nn.ReLU,
+            nn.BatchNorm2d(256),
+
+            # conv 7
+            nn.ConvTranspose2d(in_channels=256, out_channels=512, kernel_size=2, stride=2),
+            nn.ReLU,
+            nn.BatchNorm2d(512),
+
+            # conv 8
+            nn.ConvTranspose2d(in_channels=512, out_channels=3, kernel_size=2, stride=2),
             nn.Sigmoid()
         ])
         
@@ -42,12 +74,12 @@ class ConvAutoencoder(nn.Module):
         
 
     def forward(self, x):
-        for layer in self.encoder_layers:
-            x = F.relu(layer(x))
-            x = self.pool(x)
+        # for layer in self.encoder_layers:
+        #     x = F.relu(layer(x))
+        #     x = self.pool(x)
 
-        for layer in self.decoder_layers:
-            x = F.relu(layer(x))
+        # for layer in self.decoder_layers:
+        #     x = F.relu(layer(x))
 
         return x
 
