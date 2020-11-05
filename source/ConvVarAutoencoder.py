@@ -50,9 +50,9 @@ class ConvVAE(nn.Module):
             nn.ReLU(),
             Unflatten(128, 7, 7),
             nn.ReLU(),
-            nn.ConvTranspose2d(128, 64, kernel_size=3, padding=),
+            nn.ConvTranspose2d(128, 64, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.ConvTranspose2d(64, 3, kernel_size=3, padding=),
+            nn.ConvTranspose2d(64, 3, kernel_size=3, padding=1),
             nn.Sigmoid()
         )
         self.to(device)
