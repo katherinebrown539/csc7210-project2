@@ -157,7 +157,8 @@ for x, y in dataloaders['test']:
         image = x[i].numpy()
         ouptut = output[i]
         label = y[i].numpy()
-        ls = np.sum(np.square(image.ravel() - output.ravel()))
+        # ls = np.sum(np.square(image.ravel() - output.ravel()))
+        ls = model.criterion(output, image)
         results.append([label, ls])
 
 results = pd.DataFrame(results, columns=results_cols)
