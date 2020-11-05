@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 from tqdm import tqdm
+import torch.nn.functional as F
+import torch.optim as optim
 
 class Flatten(nn.Module):
     def forward(self, input):
