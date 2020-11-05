@@ -18,52 +18,20 @@ class ConvAutoencoder(nn.Module):
         super(ConvAutoencoder, self).__init__()
         ## encoder layers ##
 
-        #Encoder
-        self.encoder_layers = nn.ModuleList([
-            nn.Conv2d(3,512, 2, stride=1),
+self.encoder_layers = nn.ModuleList([
+            nn.Conv2d(3, 256, 3, padding=1),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.BatchNorm2d(512),
-
-            nn.Conv2d(in_channels=512, out_channels=256, kernel_size=2, stride=1),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # 1/4
-            nn.BatchNorm2d(256),
-
-            nn.Conv2d(in_channels=256, out_channels=128, kernel_size=2, stride=1),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # 1/8
-            nn.BatchNorm2d(128),
-
-            # conv 4
-            nn.Conv2d(in_channels=128, out_channels=64, kernel_size=2, stride=1),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),  #1/16
-            nn.BatchNorm2d(64)
-
+            nn.Conv2d(256, 4, 3, padding=1)
+            nn.ReLU()
         ])
 
         self.pool = nn.MaxPool2d(2, 2)
        
         #Decoder
         self.decoder_layers = nn.ModuleList([
-            # conv 5
-            nn.ConvTranspose2d(in_channels=64, out_channels=128, kernel_size=2, stride=2),
+            nn.ConvTranspose2d(4, 256, 2, stride=2), 
             nn.ReLU(),
-            nn.BatchNorm2d(128),
-
-            # conv 6
-            nn.ConvTranspose2d(in_channels=128, out_channels=256, kernel_size=2, stride=2),
-            nn.ReLU(),
-            nn.BatchNorm2d(256),
-
-            # conv 7
-            nn.ConvTranspose2d(in_channels=256, out_channels=512, kernel_size=2, stride=2),
-            nn.ReLU(),
-            nn.BatchNorm2d(512),
-
-            # conv 8
-            nn.ConvTranspose2d(in_channels=512, out_channels=3, kernel_size=2, stride=2),
+            nn.ConvTranspose2d(256, 3, 2, stride=2),
             nn.Sigmoid()
         ])
         
@@ -109,7 +77,6 @@ class ConvAutoencoder(nn.Module):
                     outputs = self.forward(images)
                     # calculate the loss
                     loss = self.criterion(outputs, images)
-                    print(loss)
                     # backward pass: compute gradient of the loss with respect to model parameters
                     loss.backward()
                     # perform a single optimization step (parameter update)
