@@ -53,6 +53,8 @@ class ConvVAE(nn.Module):
             nn.ConvTranspose2d(64, 3, kernel_size=4, stride=2, padding=1),
             nn.Sigmoid()
         )
+        self.to(device)
+        optimizer = optim.Adam(self.parameters(), lr=1e-3)
 
     def encode(self, x):
         h = self.encoder(x)
