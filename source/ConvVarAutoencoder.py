@@ -33,7 +33,7 @@ class ConvVAE(nn.Module):
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
             nn.ReLU(),
             Flatten(),
-            nn.Linear(6272, 1024),
+            nn.Linear(6422528, 1024),
             nn.ReLU()
         )
 
@@ -46,7 +46,7 @@ class ConvVAE(nn.Module):
         self.decoder = nn.Sequential(
             nn.Linear(self.latent_size, 1024),
             nn.ReLU(),
-            nn.Linear(1024, 6272),
+            nn.Linear(1024, 6422528),
             nn.ReLU(),
             Unflatten(128, 7, 7),
             nn.ReLU(),
