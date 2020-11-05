@@ -18,6 +18,7 @@ from tqdm import tqdm
 os.sys.path.insert(0, ".")
 from DiabetesData import DiabeticData
 from Autoencoder import ConvAutoencoder
+from ConvVarAutoencoder import ConvVAE
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
@@ -57,8 +58,8 @@ print(train.shape)
 print(val.shape)
 print(test.shape)
 
-
-model = ConvAutoencoder(device)
+model = ConvVAE(1000)
+# model = ConvAutoencoder(device)
 print(model)
 
 model.fit(epochs, dataloaders["train"])
