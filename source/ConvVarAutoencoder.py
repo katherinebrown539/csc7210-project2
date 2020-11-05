@@ -56,7 +56,7 @@ class ConvVAE(nn.Module):
             nn.Sigmoid()
         )
         self.to(device)
-        optimizer = optim.Adam(self.parameters(), lr=1e-3)
+        self.optimizer = optim.Adam(self.parameters(), lr=1e-3)
 
     def encode(self, x):
         h = self.encoder(x)
