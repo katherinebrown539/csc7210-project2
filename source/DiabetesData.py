@@ -89,20 +89,17 @@ class DiabeticData(Dataset):
             image_transforms = {
                 "train":
                 transforms.Compose([
-                transforms.Resize(256),
-                transforms.CenterCrop(224),
+                transforms.Resize(100),
                 transforms.ToTensor()
             ]),
                 "valid":
                 transforms.Compose([
-                transforms.Resize(256),
-                transforms.CenterCrop(224),
+                transforms.Resize(100),
                 transforms.ToTensor()
             ]),
                 "test":
                 transforms.Compose([
-                transforms.Resize(256),
-                transforms.CenterCrop(224),
+                transforms.Resize(100),
                 transforms.ToTensor()
             ])
             } 
