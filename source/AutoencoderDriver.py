@@ -102,13 +102,15 @@ for idx in np.arange(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(output[idx])
     ax.set_title(classes[labels[idx]])
-    
+plt.savefig("autoencoded.png")    
+
 # plot the first ten input images and then reconstructed images
 fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(24,4))
 for idx in np.arange(batch_size):
     ax = fig.add_subplot(2, 20/2, idx+1, xticks=[], yticks=[])
     imshow(images[idx])
     ax.set_title(classes[labels[idx]])
+plt.savefig("original.png")    
 
 dataloaders['test'] = DataLoader(data['test'], batch_size=1, shuffle=True)
 
