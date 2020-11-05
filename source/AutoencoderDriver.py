@@ -58,7 +58,7 @@ print(train.shape)
 print(val.shape)
 print(test.shape)
 
-model = ConvVAE(1000)
+model = ConvVAE(1000, device)
 # model = ConvAutoencoder(device)
 print(model)
 

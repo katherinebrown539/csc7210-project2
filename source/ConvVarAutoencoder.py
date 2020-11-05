@@ -20,9 +20,9 @@ class Unflatten(nn.Module):
 
 class ConvVAE(nn.Module):
 
-    def __init__(self, latent_size):
+    def __init__(self, latent_size, device):
         super(ConvVAE, self).__init__()
-
+        self.device = device
         self.latent_size = latent_size
 
         self.encoder = nn.Sequential(
@@ -75,3 +75,35 @@ class ConvVAE(nn.Module):
         mu, logvar = self.encode(x)
         z = self.reparameterize(mu, logvar)
         return self.decode(z), mu, logvar
+
+    def loss_function(self, recon_x, x, mu, logvar):
+        # reconstruction loss
+        BCE = F.binary_cross_entropy(recon_x.view(-1, 784), x.view(-1, 784), reduction='sum')
+
+        # KL divergence loss
+        KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+
+        return BCE + KLD
+
+    def train(epoch, n_epochs, train_loader):
+        model.train()
+        train_loss = 0
+        for epoch in epochs:
+            train_loss_ep = 0
+
+            for batch_idx, (data, _) in tqdm(enumerate(train_loader), total=len(train_loader), desc='train'):
+                data = data.to(self.device)
+
+                optimizer.zero_grad()
+                recon_batch, mu, logvar = self.forward(data)
+
+                loss = self.loss_function(recon_batch, data, mu, logvar)
+                train_loss += loss.item()
+
+                loss.backward()
+                optimizer.step()
+
+            train_loss_ep /= len(train_loader.dataset)
+            train_loss += train_loss_ep
+
+        return train_loss
