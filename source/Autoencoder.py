@@ -20,21 +20,14 @@ class ConvAutoencoder(nn.Module):
 
         self.encoder_layers = nn.ModuleList([
                 nn.Conv2d(3, 256, 3, padding=1),
-                nn.ReLU(),
-                nn.MaxPool2d(2, 2),
-                nn.Conv2d(256, 4, 3, padding=1),
-                nn.ReLU(),
-                nn.MaxPool2d(2, 2)
+                nn.Conv2d(256, 4, 3, padding=1)
             ])
 
-        
+        self.pool = nn.MaxPool2d(2,2)
             #Decoder
         self.decoder_layers = nn.ModuleList([
             nn.ConvTranspose2d(4, 256, 2, stride=2), 
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-            nn.ConvTranspose2d(256, 3, 2, stride=2),
-            nn.Sigmoid()
+            nn.ConvTranspose2d(256, 3, 2, stride=2)
         ])
         
         self.to(device)
@@ -44,17 +37,13 @@ class ConvAutoencoder(nn.Module):
         
 
     def forward(self, x):
-        # for layer in self.encoder_layers:
-        #     x = F.relu(layer(x))
-        #     x = self.pool(x)
-
-        # for layer in self.decoder_layers:
-        #     x = F.relu(layer(x))
         for layer in self.encoder_layers:
-            x = layer(x)
+            x = F.relu(layer(x))
+            x = self.pool(x)
 
         for layer in self.decoder_layers:
-            x = layer(x)
+            x = F.relu(layer(x))
+        x = F.sigmoid(x)
         return x
 
     def fit(self, n_epochs, train_loader):
