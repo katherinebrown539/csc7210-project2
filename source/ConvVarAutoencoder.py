@@ -86,7 +86,7 @@ class ConvVAE(nn.Module):
         return BCE + KLD
 
     def fit(self, n_epochs, train_loader):
-        self.model.train()
+        self.train()
         train_loss = 0
         for epoch in epochs:
             train_loss_ep = 0
