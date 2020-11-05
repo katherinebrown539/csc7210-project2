@@ -144,7 +144,7 @@ for idx in np.arange(batch_size):
     ax.set_title(classes[labels[idx]])
 plt.savefig("original.png")    
 
-dataloaders['test'] = DataLoader(data['test'], batch_size=1, shuffle=True)
+# dataloaders['test'] = DataLoader(data['test'], batch_size=1, shuffle=True)
 
 results = []
 results_cols = ["Image Label", "Reconstruction Loss"]
@@ -154,7 +154,7 @@ for x, y in dataloaders['test']:
     output = output.cpu().detach().numpy()
     for i in range(y.shape[0]):
         ls = 0
-        image = x[i].numpy()
+        # image = x[i].numpy()
         ouptut = output[i]
         label = y[i].numpy()
         # ls = np.sum(np.square(image.ravel() - output.ravel()))
