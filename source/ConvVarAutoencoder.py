@@ -105,7 +105,7 @@ class ConvVAE(nn.Module):
                 train_loss += loss.item()
 
                 loss.backward()
-                optimizer.step()
+                self.ptimizer.step()
 
             train_loss_ep /= len(train_loader.dataset)
             train_loss += train_loss_ep
