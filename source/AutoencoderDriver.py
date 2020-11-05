@@ -56,7 +56,7 @@ if datatype == "diabetes":
 
 elif datatype == "dogcat":
     filename = "data/dogcat.csv"
-    root_dir = "data/dogcat"
+    root_dir = "data/dogcat/train"
 
     # task = ([0,1,2], (3,4))
 
