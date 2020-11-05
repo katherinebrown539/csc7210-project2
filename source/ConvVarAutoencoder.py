@@ -98,14 +98,14 @@ class ConvVAE(nn.Module):
             for batch_idx, (data, _) in tqdm(enumerate(train_loader), total=len(train_loader), desc='train'):
                 data = data.to(self.device)
 
-                optimizer.zero_grad()
+                self.optimizer.zero_grad()
                 recon_batch, mu, logvar = self.forward(data)
 
                 loss = self.loss_function(recon_batch, data, mu, logvar)
                 train_loss += loss.item()
 
                 loss.backward()
-                self.ptimizer.step()
+                self.optimizer.step()
 
             train_loss_ep /= len(train_loader.dataset)
             train_loss += train_loss_ep
