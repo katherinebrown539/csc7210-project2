@@ -87,17 +87,20 @@ class DogCatData(Dataset):
             image_transforms = {
                 "train":
                 transforms.Compose([
-                transforms.Resize(75),
+                transforms.Resize(128),
+                transforms.CenterCrop(100),
                 transforms.ToTensor()
             ]),
                 "valid":
                 transforms.Compose([
-                transforms.Resize(75),
+                transforms.Resize(128),
+                transforms.CenterCrop(100),
                 transforms.ToTensor()
             ]),
                 "test":
                 transforms.Compose([
-                transforms.Resize(75),
+                transforms.Resize(128),
+                transforms.CenterCrop(100),
                 transforms.ToTensor()
             ])
             } 
