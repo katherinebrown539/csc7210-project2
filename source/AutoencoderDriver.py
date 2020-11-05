@@ -154,11 +154,11 @@ for x, y in dataloaders['test']:
     output = output.cpu().detach().numpy()
     for i in range(y.shape[0]):
         ls = 0
-        # image = x[i].numpy()
+        image = x[i].numpy()
         ouptut = output[i]
         label = y[i].numpy()
-        # ls = np.sum(np.square(image.ravel() - output.ravel()))
-        ls = model.criterion(output, image)
+        ls = np.sum(np.square(image.ravel() - output.ravel()))
+        # ls = model.criterion(output, image)
         results.append([label, ls])
 
 results = pd.DataFrame(results, columns=results_cols)
