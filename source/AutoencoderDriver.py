@@ -65,7 +65,7 @@ elif datatype == "dogcat":
     train, test = train_test_split(data, test_size=0.1)
     train, val = train_test_split(train, test_size=0.1)
 
-    train = train[train["level"] != 0]
+    train = train[train["label"] != 0]
     print(train)
     #filter out 1s from training set
 
