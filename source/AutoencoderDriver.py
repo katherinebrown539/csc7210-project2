@@ -21,7 +21,6 @@ from Autoencoder import ConvAutoencoder
 from ConvVarAutoencoder import ConvVAE
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = 'cpu'
 print(device)
 
 task = ([0,1,2], [3,4])
@@ -59,8 +58,8 @@ print(train.shape)
 print(val.shape)
 print(test.shape)
 
-model = ConvVAE(1000, device)
-# model = ConvAutoencoder(device)
+# model = ConvVAE(1000, device)
+model = ConvAutoencoder(device)
 print(model)
 
 model.fit(epochs, dataloaders["train"])
