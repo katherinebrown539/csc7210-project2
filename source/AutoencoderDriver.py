@@ -141,3 +141,8 @@ avg_0 = np.mean(label_0.values)
 print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
 
+#find error threshold on validation set
+
+
+
+#evaluate on testing data

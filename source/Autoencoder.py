@@ -29,9 +29,9 @@ class ConvAutoencoder(nn.Module):
        
         #Decoder
         self.decoder_layers = nn.ModuleList([
-            nn.ConvTranspose2d(4, 256, 2, stride=2), 
-            nn.ConvTranspose2d(256, 128, 2, stride=2), 
-            nn.ConvTranspose2d(128, 3, 2, stride=2),
+            nn.ConvTranspose2d(4, 128, 2, stride=2), 
+            nn.ConvTranspose2d(128, 256, 2, stride=2), 
+            nn.ConvTranspose2d(256, 3, 2, stride=2),
             nn.Sigmoid()
         ])
         
