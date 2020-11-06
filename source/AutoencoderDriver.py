@@ -24,7 +24,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 datatype="dogcat"
 batch_size=16
-epochs = 100
+epochs = 1
 
 normalize=False
 size=100
@@ -164,15 +164,18 @@ for x, y in dataloaders['test']:
 results = pd.DataFrame(results, columns=results_cols)
 results.to_csv("reconstruction_error.csv")
 
-
+print(results)
 label_1 = results[results["Image Label"] == 1]
 label_0 = results[results["Image Label"] == 0]
-
+print(label_0)
+print(label_1)
 avg_1 = np.mean(label_1.values)
 avg_0 = np.mean(label_0.values)
 
 print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
+
+
 
 #find error threshold on validation set
 
