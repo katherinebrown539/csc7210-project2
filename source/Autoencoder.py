@@ -18,7 +18,7 @@ class ConvAutoencoder(nn.Module):
         super(ConvAutoencoder, self).__init__()
         ## encoder layers ##
         start_size = 3
-        layer_sizes = [1024,512,4]
+        layer_sizes = [1024,4]
         encoder_layers = []
         for end_size in layer_sizes:
             conv = nn.Conv2d(start_size, end_size, 3, padding=1)
