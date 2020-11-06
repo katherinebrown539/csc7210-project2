@@ -26,6 +26,7 @@ train = train.reset_index()
 test = test.reset_index()
 val = val.reset_index()
 
+datagen = ImageDataGenerator(rescale=1./255)
 
 train_generator=datagen.flow_from_dataframe(
     dataframe=train,
