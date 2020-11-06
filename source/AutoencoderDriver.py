@@ -30,7 +30,7 @@ normalize=False
 size=100
 
 if datatype == "diabetes":
-    filename = "data/trainLabels.csv"
+    filename = "data/trainLabels_ad.csv"
     root_dir = "data/diabetes"
     task = ([0],[4])
     # task = ([0,1,2], [3,4])
