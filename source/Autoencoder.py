@@ -29,7 +29,7 @@ class ConvAutoencoder(nn.Module):
         layer_sizes.reverse()
         
         decoder_layers = []
-        for i in range(len(layer_sizes))-1:
+        for i in range(len(layer_sizes)-1):
             start_size = layer_sizes[i]
             end_size = layer_sizes[i+1]
             conv = nn.ConvTranspose2d(start_size, end_size, 2, stride=2)
