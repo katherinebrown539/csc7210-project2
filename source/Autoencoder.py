@@ -75,15 +75,9 @@ class ConvAutoencoder(nn.Module):
             nn.ReLU(),
             nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
             nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            Reshape(),
-            nn.Linear(in_features=128, out_features=16, bias=True),
-            nn.Linear(in_features=16, out_features=8, bias=True) ])
+            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)])
 
         self.decoder_layers = nn.ModuleList([
-            nn.Linear(in_features=8, out_features=16, bias=True),
-            nn.Linear(in_features=16, out_features=128, bias=True),
-            Reshape(),
             nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
             nn.ReLU(),
             nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
