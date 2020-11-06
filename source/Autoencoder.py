@@ -35,7 +35,7 @@ class ConvAutoencoder(nn.Module):
             nn.ConvTranspose2d(4, 1024, 2, stride=2), 
             nn.ReLU(),
             nn.ConvTranspose2d(1024, 3, 2, stride=2),
-            nn.Sigmoid
+            nn.Sigmoid()
         ])
         
         self.to(device)
