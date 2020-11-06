@@ -1,10 +1,11 @@
+import tensorflows as tf
 import tensorflow.keras as keras
-from keras.models import Sequential
+from tf.keras.models import Sequential
 
 from keras_preprocessing.image import ImageDataGenerator
-from keras.layers import Dense, Activation, Flatten, Dropout, BatchNormalization
-from keras.layers import Conv2D, MaxPooling2D
-from keras import regularizers, optimizers
+from tf.keras.layers import Dense, Activation, Flatten, Dropout, BatchNormalization
+from tf.keras.layers import Conv2D, MaxPooling2D
+from tf.keras import regularizers, optimizers
 import pandas as pd
 import numpy as np
 
