@@ -32,7 +32,8 @@ size=100
 if datatype == "diabetes":
     filename = "data/trainLabels.csv"
     root_dir = "data/diabetes"
-    task = ([0,1,2], [3,4])
+    task = ([0],[4])
+    # task = ([0,1,2], [3,4])
     # task = ([0,1,2], (3,4))
 
     data = pd.read_csv(filename)
@@ -40,7 +41,7 @@ if datatype == "diabetes":
     train, test = train_test_split(data, test_size=0.1)
     train, val = train_test_split(train, test_size=0.1)
 
-    train = train[train["level"] < 3]
+    train = train[train["level"] == 0]
     print(train)
     classes = ['none', 'severe']
     #filter out 1s from training set
