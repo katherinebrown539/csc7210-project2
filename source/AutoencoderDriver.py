@@ -24,7 +24,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 datatype="dogcat"
 batch_size=16
-epochs = 1
+epochs = 10
 
 normalize=False
 size=100
