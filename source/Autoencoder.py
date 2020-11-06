@@ -102,8 +102,8 @@ class ConvAutoencoder(nn.Module):
             ReLU(),
             ConvTranspose2d(32, 1, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)])
 
-self.to(device)
-self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
+        self.to(device)
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
         self.criterion = nn.BCELoss() # nn.BCELoss()
         self.device = device
         
