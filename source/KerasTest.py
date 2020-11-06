@@ -21,6 +21,9 @@ train, val = train_test_split(train, test_size=0.1)
 train = train[train["label"] == 1]
 print(train)
 #filter out 1s from training set
+train['label'].astype(str)
+val['label'].astype(str)
+test['label'].astype(str)
 
 train = train.reset_index()
 test = test.reset_index()
