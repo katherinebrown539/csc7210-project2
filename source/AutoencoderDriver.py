@@ -40,7 +40,7 @@ if datatype == "diabetes":
     train, test = train_test_split(data, test_size=0.1)
     train, val = train_test_split(train, test_size=0.1)
 
-    train = train[train["level"] < 3]
+    train = train[train["level"] < 2]
     print(train)
     classes = ['none', 'severe']
     #filter out 1s from training set
@@ -99,7 +99,7 @@ print(model)
 model.fit(epochs, dataloaders["train"])
 
 def imshow(img):
-    # img = img / 2 + 0.5  # unnormalize
+    img = img / 2 + 0.5  # unnormalize
     plt.imshow(np.transpose(img, (1, 2, 0)))
 
 
@@ -184,6 +184,8 @@ plt.xlabel('MSE')
 plt.ylabel('Frequency')
 plt.savefig('errordist.png')
 #find error threshold on validation set
+
+
 
 
 
