@@ -43,8 +43,10 @@ class ConvAutoencoder(nn.Module):
             x = F.relu(layer(x))
             x = self.pool(x)
 
-        for layer in self.decoder_layers:
-            x = F.relu(layer(x))
+        for i in range(len(self.decoder_layers)):
+            if i < len(self.decoder_layers)-1:
+                layer = self.decoder_layers[i]
+                x = F.relu(layer(x))
         x = F.sigmoid(x)
         return x
 
