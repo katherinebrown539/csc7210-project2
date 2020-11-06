@@ -20,6 +20,7 @@ from DiabetesData import DiabeticData
 from Autoencoder import ConvAutoencoder
 from ConvVarAutoencoder import ConvVAE
 from DogCatData import DogCatData
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 datatype="diabetes"
