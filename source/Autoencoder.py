@@ -12,21 +12,13 @@ from torchvision import datasets, transforms
 from tqdm import tqdm
 from DiabetesData import DiabeticData
 
-class Reshape(nn.Module):
-    def __init__(self, *args):
-        super(Reshape, self).__init__()
-        self.shape = args
-
-    def forward(self, x):
-        return x.view(self.shape)
-
 # define the NN architecture
 class ConvAutoencoder(nn.Module):
     def __init__(self, device="cpu"):
         super(ConvAutoencoder, self).__init__()
         ## encoder layers ##
         start_size = 3
-        layer_sizes = [1024,4]
+        layer_sizes = [1024,512,4]
         encoder_layers = []
         for end_size in layer_sizes:
             conv = nn.Conv2d(start_size, end_size, 3, padding=1)
@@ -45,7 +37,8 @@ class ConvAutoencoder(nn.Module):
             decoder_layers.extend([conv,relu])
         
         decoder_layers.append(nn.ConvTranspose2d(layer_sizes[-1], 3, 2, stride=2))
-        decoder_layers.append(nn.Sigmoid())
+        # decoder_layers.append(nn.Sigmoid())
+        decoder_layers.append(nn.ReLU())
 
         self.encoder_layers = nn.ModuleList(encoder_layers)
         self.decoder_layers = nn.ModuleList(decoder_layers)
@@ -53,7 +46,7 @@ class ConvAutoencoder(nn.Module):
 
         self.to(device)
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
-        self.criterion = nn.BCELoss() # nn.BCELoss()
+        self.criterion = nn.MSELoss() # nn.BCELoss()
         self.device = device
         
 
@@ -88,6 +81,8 @@ class ConvAutoencoder(nn.Module):
                     # forward pass: compute predicted outputs by passing inputs to the model
                     outputs = self.forward(images)
                     # calculate the loss
+                    print(outputs.shape)
+                    print(images.shape)
                     loss = self.criterion(outputs, images)
                     # backward pass: compute gradient of the loss with respect to model parameters
                     loss.backward()

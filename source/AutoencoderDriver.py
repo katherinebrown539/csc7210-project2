@@ -22,7 +22,7 @@ from ConvVarAutoencoder import ConvVAE
 from DogCatData import DogCatData
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-datatype="diabetes"
+datatype="dogcat"
 batch_size=16
 epochs = 1
 
@@ -99,7 +99,7 @@ print(model)
 model.fit(epochs, dataloaders["train"])
 
 def imshow(img):
-    img = img / 2 + 0.5  # unnormalize
+    # img = img / 2 + 0.5  # unnormalize
     plt.imshow(np.transpose(img, (1, 2, 0)))
 
 
@@ -178,8 +178,8 @@ avg_0 = np.mean(label_0['Reconstruction Loss'].values)
 print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
 
-plt.hist(label_1['Reconstruction Loss'].values, density=False, bins=30, color='blue')
-plt.hist(label_0['Reconstruction Loss'].values, density=False, bins=30, color='yellow')
+plt.hist(label_1['Reconstruction Loss'].values, density=False, bins=30, color='blue', label='Prediction: 1')
+plt.hist(label_0['Reconstruction Loss'].values, density=False, bins=30, color='yellow', label='Prediction: 1')
 plt.xlabel('MSE')
 plt.ylabel('Frequency')
 plt.savefig('errordist.png')
