@@ -24,7 +24,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 datatype="diabetes"
 batch_size=16
-epochs = 10
+epochs = 1
 
 normalize=False
 size=100
