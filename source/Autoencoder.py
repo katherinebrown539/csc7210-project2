@@ -12,6 +12,14 @@ from torchvision import datasets, transforms
 from tqdm import tqdm
 from DiabetesData import DiabeticData
 
+class Reshape(nn.Module):
+    def __init__(self, *args):
+        super(Reshape, self).__init__()
+        self.shape = args
+
+    def forward(self, x):
+        return x.view(self.shape)
+
 # define the NN architecture
 class ConvAutoencoder(nn.Module):
     def __init__(self, device="cpu"):
@@ -68,14 +76,14 @@ class ConvAutoencoder(nn.Module):
             nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
             nn.ReLU(),
             nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.Reshape(),
+            Reshape(),
             nn.Linear(in_features=128, out_features=16, bias=True),
             nn.Linear(in_features=16, out_features=8, bias=True) ])
 
         self.decoder_layers = nn.ModuleList([
             nn.Linear(in_features=8, out_features=16, bias=True),
             nn.Linear(in_features=16, out_features=128, bias=True),
-            nn.Reshape(),
+            Reshape(),
             nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
             nn.ReLU(),
             nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
