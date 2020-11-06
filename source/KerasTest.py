@@ -40,7 +40,7 @@ train_generator=datagen.flow_from_dataframe(
     batch_size=32,
     seed=42,
     shuffle=True,
-    class_mode="binary",
+    class_mode="categorical",
     target_size=(100,100))
 
 valid_generator=datagen.flow_from_dataframe(
@@ -52,7 +52,7 @@ valid_generator=datagen.flow_from_dataframe(
     batch_size=32,
     seed=42,
     shuffle=True,
-    class_mode="binary",
+    class_mode="categorical",
     target_size=(100,100))
 
 test_generator=test_datagen.flow_from_dataframe(
@@ -63,7 +63,7 @@ test_generator=test_datagen.flow_from_dataframe(
     batch_size=32,
     seed=42,
     shuffle=False,
-    class_mode='binary',
+    class_mode='categorical',
     target_size=(100,100))
 
 input_img = tf.keras.Input(shape=(100, 100, 1))
