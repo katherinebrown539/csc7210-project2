@@ -165,12 +165,12 @@ results = pd.DataFrame(results, columns=results_cols)
 results.to_csv("reconstruction_error.csv")
 
 print(results)
-label_1 = results[results["Image Label"] == 1, 'Reconstruction Loss']
-label_0 = results[results["Image Label"] == 0, 'Reconstruction Loss']
+label_1 = results[results["Image Label"] == 1]
+label_0 = results[results["Image Label"] == 0]
 print(label_0)
 print(label_1)
-avg_1 = np.mean(label_1.values)
-avg_0 = np.mean(label_0.values)
+avg_1 = np.mean(label_1['Reconstruction Loss'].values)
+avg_0 = np.mean(label_0['Reconstruction Loss'].values)
 
 print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
