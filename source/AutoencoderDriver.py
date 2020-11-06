@@ -58,7 +58,7 @@ if datatype == "diabetes":
 elif datatype == "dogcat":
     filename = "data/dogcat_ad.csv"
     root_dir = "data/dogcat/train"
-    classes = ['dog', 'cat']
+    classes = ['cat', 'dog']
     # task = ([0,1,2], (3,4))
 
     data = pd.read_csv(filename)
@@ -66,7 +66,7 @@ elif datatype == "dogcat":
     train, test = train_test_split(data, test_size=0.1)
     train, val = train_test_split(train, test_size=0.1)
 
-    train = train[train["label"] != 0]
+    train = train[train["label"] == 1]
     print(train)
     #filter out 1s from training set
 
