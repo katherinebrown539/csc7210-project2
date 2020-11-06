@@ -42,6 +42,7 @@ if datatype == "diabetes":
 
     train = train[train["level"] < 3]
     print(train)
+    classes = ['none', 'severe']
     #filter out 1s from training set
 
     train = train.reset_index()
@@ -57,7 +58,7 @@ if datatype == "diabetes":
 elif datatype == "dogcat":
     filename = "data/dogcat.csv"
     root_dir = "data/dogcat/train"
-
+    classes = ['dog', 'cat']
     # task = ([0,1,2], (3,4))
 
     data = pd.read_csv(filename)
@@ -101,7 +102,7 @@ def imshow(img):
     img = img / 2 + 0.5  # unnormalize
     plt.imshow(np.transpose(img, (1, 2, 0)))
 
-classes = ['none', 'severe']
+
 # obtain one batch of test images
 dataiter = iter(dataloaders["test"])
 images, labels = dataiter.next()
@@ -175,8 +176,10 @@ avg_0 = np.mean(label_0['Reconstruction Loss'].values)
 print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
 
-plt.hist(label_1, density=False, bins=30, color='blue')
-plt.hist(label_0, density=False, bins=30, color='yellow')
+plt.hist(label_1['Reconstruction Loss'].values, density=False, bins=30, color='blue')
+plt.hist(label_0['Reconstruction Loss'].values, density=False, bins=30, color='yellow')
+plt.xlabel('MSE')
+plt.ylabel('Frequency')
 plt.savefig('errordist.png')
 #find error threshold on validation set
 
