@@ -53,7 +53,7 @@ valid_generator=datagen.flow_from_dataframe(
 
 test_generator=test_datagen.flow_from_dataframe(
     dataframe=test,
-    directory=root_dir
+    directory=root_dir,
     x_col=x,
     y_col=y,
     batch_size=32,
