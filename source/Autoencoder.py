@@ -82,7 +82,7 @@ class ConvAutoencoder(nn.Module):
             ReLU(),
             ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
             ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            ReLU()
+            ReLU(),
             ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
             ReLU(),
             ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
