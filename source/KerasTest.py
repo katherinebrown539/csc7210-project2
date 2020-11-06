@@ -81,7 +81,7 @@ x = tf.keras.layers.Conv2D(8, (3, 3), activation='relu', padding='same')(x)
 x = tf.keras.layers.UpSampling2D((2, 2))(x)
 x = tf.keras.layers.Conv2D(16, (3, 3), activation='relu')(x)
 x = tf.keras.layers.UpSampling2D((2, 2))(x)
-decoded = tf.keras.layers.Conv2D(3, (3, 3), activation='sigmoid', padding='same')(x)
+decoded = tf.keras.layers.Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
 autoencoder = tf.keras.Model(input_img, decoded)
 autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
