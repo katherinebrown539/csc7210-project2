@@ -25,84 +25,31 @@ class ConvAutoencoder(nn.Module):
     def __init__(self, device="cpu"):
         super(ConvAutoencoder, self).__init__()
         ## encoder layers ##
-        # start_size = 3
-        # layer_sizes = [1024,4]
-        # encoder_layers = []
-        # for end_size in layer_sizes:
-        #     conv = nn.Conv2d(start_size, end_size, 3, padding=1)
-        #     relu = nn.ReLU()
-        #     pool = nn.MaxPool2d(2,2)
-        #     start_size = end_size
-        #     encoder_layers.extend([conv,relu,pool])
-        # layer_sizes.reverse()
+        start_size = 3
+        layer_sizes = [1024,4]
+        encoder_layers = []
+        for end_size in layer_sizes:
+            conv = nn.Conv2d(start_size, end_size, 3, padding=1)
+            relu = nn.ReLU()
+            pool = nn.MaxPool2d(2,2)
+            start_size = end_size
+            encoder_layers.extend([conv,relu,pool])
+        layer_sizes.reverse()
         
-        # decoder_layers = []
-        # for i in range(len(layer_sizes)-1):
-        #     start_size = layer_sizes[i]
-        #     end_size = layer_sizes[i+1]
-        #     conv = nn.ConvTranspose2d(start_size, end_size, 2, stride=2)
-        #     relu = nn.ReLU()
-        #     decoder_layers.extend([conv,relu])
+        decoder_layers = []
+        for i in range(len(layer_sizes)-1):
+            start_size = layer_sizes[i]
+            end_size = layer_sizes[i+1]
+            conv = nn.ConvTranspose2d(start_size, end_size, 2, stride=2)
+            relu = nn.ReLU()
+            decoder_layers.extend([conv,relu])
         
-        # decoder_layers.append(nn.ConvTranspose2d(layer_sizes[-1], 3, 2, stride=2))
-        # decoder_layers.append(nn.Sigmoid())
+        decoder_layers.append(nn.ConvTranspose2d(layer_sizes[-1], 3, 2, stride=2))
+        decoder_layers.append(nn.Sigmoid())
 
-        # self.encoder_layers = nn.ModuleList(encoder_layers)
-        # self.decoder_layers = nn.ModuleList(decoder_layers)
+        self.encoder_layers = nn.ModuleList(encoder_layers)
+        self.decoder_layers = nn.ModuleList(decoder_layers)
 
-        self.encoder_layers = nn.ModuleList([
-            nn.Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)])
-
-        self.decoder_layers = nn.ModuleList([
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False),
-            nn.ReLU(),
-            nn.ConvTranspose2d(32, 3, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)])
 
         self.to(device)
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
