@@ -10,7 +10,7 @@ filename = "data/dogcat_ad.csv"
 root_dir = "data/dogcat/train"
 classes = ['cat', 'dog']
 x='filename'
-y='label'
+y='text_label'
 # task = ([0,1,2], (3,4))
 
 data = pd.read_csv(filename)
@@ -19,15 +19,9 @@ train, test = train_test_split(data, test_size=0.1)
 train, val = train_test_split(train, test_size=0.1)
 
 train = train[train["label"] == 1]
-print(train)
 #filter out 1s from training set
-train['label'].astype(int)
-val['label'].astype(int)
-test['label'].astype(int)
 
-train['label'].astype(str)
-val['label'].astype(str)
-test['label'].astype(str)
+
 
 train = train.reset_index()
 test = test.reset_index()
@@ -44,7 +38,7 @@ train_generator=datagen.flow_from_dataframe(
     batch_size=32,
     seed=42,
     shuffle=True,
-    class_mode="categorical",
+    class_mode="binary",
     target_size=(100,100))
 
 valid_generator=datagen.flow_from_dataframe(
@@ -56,7 +50,7 @@ valid_generator=datagen.flow_from_dataframe(
     batch_size=32,
     seed=42,
     shuffle=True,
-    class_mode="categorical",
+    class_mode="binary",
     target_size=(100,100))
 
 test_generator=test_datagen.flow_from_dataframe(
@@ -67,7 +61,7 @@ test_generator=test_datagen.flow_from_dataframe(
     batch_size=32,
     seed=42,
     shuffle=False,
-    class_mode='categorical',
+    class_mode='binary',
     target_size=(100,100))
 
 input_img = tf.keras.Input(shape=(100, 100, 1))
