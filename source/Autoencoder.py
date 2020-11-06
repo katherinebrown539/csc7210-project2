@@ -19,17 +19,23 @@ class ConvAutoencoder(nn.Module):
         ## encoder layers ##
 
         self.encoder_layers = nn.ModuleList([
+                #conv block
                 nn.Conv2d(3, 1024, 3, padding=1),
-                # nn.Conv2d(1024, 512, 3, padding=1),
-                nn.Conv2d(1024, 4, 3, padding=1)
+                nn.ReLU(),
+                nn.MaxPool2d(2,2),
+
+                nn.Conv2d(1024, 4, 3, padding=1),
+                nn.ReLU(),
+                nn.MaxPool2d(2,2)
             ])
 
-        self.pool = nn.MaxPool2d(2,2)
+        # self.pool = nn.MaxPool2d(2,2)
             #Decoder
         self.decoder_layers = nn.ModuleList([
             nn.ConvTranspose2d(4, 1024, 2, stride=2), 
-            # nn.ConvTranspose2d(512, 1024, 2, stride=2), 
-            nn.ConvTranspose2d(1024, 3, 2, stride=2)
+            nn.ReLU(),
+            nn.ConvTranspose2d(1024, 3, 2, stride=2),
+            nn.Sigmoid
         ])
         
         self.to(device)
@@ -39,12 +45,19 @@ class ConvAutoencoder(nn.Module):
         
 
     def forward(self, x):
+
         for layer in self.encoder_layers:
-            x = F.relu(layer(x))
-            x = self.pool(x)
+            x = layer(x)
 
         for layer in self.decoder_layers:
-            x = F.relu(layer(x))
+            x = layer(x)
+
+        # for layer in self.encoder_layers:
+        #     x = F.relu(layer(x))
+        #     x = self.pool(x)
+
+        # for layer in self.decoder_layers:
+        #     x = F.relu(layer(x))
         # for i in range(len(self.decoder_layers)):
         #     if i < len(self.decoder_layers)-1:
         #         layer = self.decoder_layers[i]
