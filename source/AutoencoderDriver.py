@@ -99,7 +99,7 @@ print(model)
 model.fit(epochs, dataloaders["train"])
 
 def imshow(img):
-    img = img / 2 + 0.5  # unnormalize
+    # img = img / 2 + 0.5  # unnormalize
     plt.imshow(np.transpose(img, (1, 2, 0)))
 
 
