@@ -38,16 +38,34 @@ class ConvAutoencoder(nn.Module):
         
         decoder_layers.append(nn.ConvTranspose2d(layer_sizes[-1], 3, 2, stride=2))
         decoder_layers.append(nn.Sigmoid())
-        # decoder_layers.append(nn.ReLU())
 
         self.encoder_layers = nn.ModuleList(encoder_layers)
         self.decoder_layers = nn.ModuleList(decoder_layers)
 
 
+        # self.encoder_layers = nn.ModuleList([
+        #         #conv block
+        #         nn.Conv2d(3, 1024, 3, padding=1),
+        #         nn.ReLU(),
+        #         nn.MaxPool2d(2,2),
+
+        #         nn.Conv2d(1024, 4, 3, padding=1),
+        #         nn.ReLU(),
+        #         nn.MaxPool2d(2,2)
+        #     ])
+
+        # # self.pool = nn.MaxPool2d(2,2)
+        #     #Decoder
+        # self.decoder_layers = nn.ModuleList([
+        #     nn.ConvTranspose2d(4, 1024, 2, stride=2), 
+        #     nn.ReLU(),
+        #     nn.ConvTranspose2d(1024, 3, 2, stride=2),
+        #     nn.Sigmoid()
+        # ])
+        
         self.to(device)
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
         self.criterion = nn.BCELoss() # nn.BCELoss()
-        # self.criterion = nn.MSELoss() # nn.BCELoss()
         self.device = device
         
 
@@ -82,8 +100,6 @@ class ConvAutoencoder(nn.Module):
                     # forward pass: compute predicted outputs by passing inputs to the model
                     outputs = self.forward(images)
                     # calculate the loss
-                    print(outputs.shape)
-                    print(images.shape)
                     loss = self.criterion(outputs, images)
                     # backward pass: compute gradient of the loss with respect to model parameters
                     loss.backward()

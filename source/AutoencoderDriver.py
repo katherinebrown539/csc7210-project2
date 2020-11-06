@@ -15,7 +15,6 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from tqdm import tqdm
-from collections import Counter
 os.sys.path.insert(0, ".")
 from DiabetesData import DiabeticData
 from Autoencoder import ConvAutoencoder
@@ -23,26 +22,25 @@ from ConvVarAutoencoder import ConvVAE
 from DogCatData import DogCatData
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-datatype="diabetes"
+datatype="dogcat"
 batch_size=16
-epochs = 1
+epochs = 10
 
 normalize=False
 size=100
 
 if datatype == "diabetes":
     filename = "data/trainLabels.csv"
-    root_dir = "data/diabetes_original"
-    # task = ([0,1,2], [3,4])
+    root_dir = "data/diabetes"
+    task = ([0,1,2], [3,4])
     # task = ([0,1,2], (3,4))
-    task = ([0,1], [2,3,4])
 
     data = pd.read_csv(filename)
     # data = data.sample(frac=0.25)
     train, test = train_test_split(data, test_size=0.1)
     train, val = train_test_split(train, test_size=0.1)
 
-    train = train[train["level"] < 2]
+    train = train[train["level"] < 3]
     print(train)
     classes = ['none', 'severe']
     #filter out 1s from training set
@@ -50,7 +48,6 @@ if datatype == "diabetes":
     train = train.reset_index()
     test = test.reset_index()
     val = val.reset_index()
-
 
     data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
             'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
@@ -181,14 +178,12 @@ avg_0 = np.mean(label_0['Reconstruction Loss'].values)
 print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
 
-plt.hist(label_1['Reconstruction Loss'].values, density=False, bins=30, color='blue', alpha=0.5, label='Prediction: 1')
-plt.hist(label_0['Reconstruction Loss'].values, density=False, bins=30, color='yellow', alpha = 0.5, label='Prediction: 1')
+plt.hist(label_1['Reconstruction Loss'].values, density=False, bins=30, color='blue')
+plt.hist(label_0['Reconstruction Loss'].values, density=False, bins=30, color='yellow')
 plt.xlabel('MSE')
 plt.ylabel('Frequency')
 plt.savefig('errordist.png')
 #find error threshold on validation set
-
-
 
 
 
