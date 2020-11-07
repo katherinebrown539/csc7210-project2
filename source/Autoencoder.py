@@ -140,8 +140,8 @@ class ConvAutoencoder(nn.Module):
             self.visualize(history)
 
     def visualize(self, history):
-        plt.plot(history.history['training_loss'])
-        plt.plot(history.history['validation_loss'])
+        plt.plot(history['training_loss'])
+        plt.plot(history['validation_loss'])
         plt.title('model loss')
         plt.ylabel('loss')
         plt.xlabel('epoch')
