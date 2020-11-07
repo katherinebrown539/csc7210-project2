@@ -123,7 +123,7 @@ class ConvAutoencoder(nn.Module):
                 ))
             torch.save(self.state_dict(), "models/ConvAE_{0}_{1}.pth".format(self.task,epoch))
 
-            if validation_loader is not Noe:
+            if validation_loader is not None:
                 for data in validation_loader:
                     images, _ = data
                     images = images.to(self.device)
