@@ -75,7 +75,7 @@ print(test.shape)
 
 
 # model = ConvVAE(1000, device)
-model = ConvAutoencoder(device)
+model = ConvAutoencoder(device, task=datatype)
 print(model)
 
 model.fit(epochs, dataloaders["train"])
