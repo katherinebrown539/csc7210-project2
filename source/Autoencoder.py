@@ -115,7 +115,8 @@ class ConvAutoencoder(nn.Module):
                     train_loss += loss.item()*images.size(0)
                     pbar.update(1)
             # print avg training statistics 
-            history["training_loss"].append(train_loss/len(train_loader))
+            train_loss = train_loss/len(train_loader)
+            history["training_loss"].append(train_loss)
             train_loss.append(train_loss)
             print('Epoch: {} \tTraining Loss: {:.6f}'.format(
                 epoch, 
