@@ -34,6 +34,7 @@ if datatype == "diabetes":
     filename = "data/trainLabels_ad.csv"
     root_dir = "data/diabetes_resized"
     task = ([0],[4])
+    classes = ['none', 'proliferative']
     # task = ([0,1,2], [3,4])
     # task = ([0,1,2], (3,4))
 
