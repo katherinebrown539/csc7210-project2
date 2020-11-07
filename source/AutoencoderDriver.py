@@ -38,7 +38,7 @@ if datatype == "diabetes":
     # task = ([0,1,2], (3,4))
 
     train = pd.read_csv("data/diabetes_ad_train.csv")
-    valid = pd.read_csv("data/diabetes_ad_valid.csv")
+    val = pd.read_csv("data/diabetes_ad_valid.csv")
     test = pd.read_csv("data/diabetes_ad_test.csv")
 
     data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
