@@ -32,24 +32,14 @@ size=100
 
 if datatype == "diabetes":
     filename = "data/trainLabels_ad.csv"
-    root_dir = "data/diabetes"
+    root_dir = "data/diabetes_resized"
     task = ([0],[4])
     # task = ([0,1,2], [3,4])
     # task = ([0,1,2], (3,4))
 
-    data = pd.read_csv(filename)
-    # data = data.sample(frac=0.25)
-    train, test = train_test_split(data, test_size=0.1)
-    train, val = train_test_split(train, test_size=0.1)
-
-    train = train[train["level"] == 0]
-    print(train)
-    classes = ['none', 'severe']
-    #filter out 1s from training set
-
-    train = train.reset_index()
-    test = test.reset_index()
-    val = val.reset_index()
+    train = pd.read_csv("data/diabetes_ad_train.csv")
+    valid = pd.read_csv("data/diabetes_ad_valid.csv")
+    test = pd.read_csv("data/diabetes_ad_test.csv")
 
     data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
             'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
@@ -60,29 +50,17 @@ if datatype == "diabetes":
 elif datatype == "dogcat":
     filename = "data/dogcat_ad.csv"
     root_dir = "data/dogcat/train"
-    classes = ['cat', 'dog']
+    classes = ['dog', 'cat']
     # task = ([0,1,2], (3,4))
 
-    data = pd.read_csv(filename)
-    # data = data.sample(frac=0.25)
-    train, test = train_test_split(data, test_size=0.1)
-    train, val = train_test_split(train, test_size=0.1)
-
-    train = train[train["label"] == 1]
-    print(train)
-    #filter out 1s from training set
-
-    train = train.reset_index()
-    test = test.reset_index()
-    val = val.reset_index()
+    train = pd.read_csv("data/dogcat_ad_train.csv")
+    valid = pd.read_csv("data/dogcat_ad_valid.csv")
+    test = pd.read_csv("data/dogcat_ad_test.csv")
 
     data = {'train': DogCatData(df = train, transform_key="train", root_dir=root_dir, normalize = normalize),
             'valid': DogCatData(df = val, transform_key="valid", root_dir=root_dir, normalize = normalize),
             'test': DogCatData(df = test, transform_key="test", root_dir=root_dir, normalize = normalize)
             }
-
-
-
 
 dataloaders = {
         'train': DataLoader(data['train'], batch_size=batch_size, shuffle=True),
@@ -93,6 +71,7 @@ dataloaders = {
 print(train.shape)
 print(val.shape)
 print(test.shape)
+
 
 # model = ConvVAE(1000, device)
 model = ConvAutoencoder(device)
@@ -181,7 +160,7 @@ print("Average Reconstruction Error (Prediction = 0)", avg_0)
 print("Average Reconstruction Error (Prediction = 1)", avg_1)
 
 plt.hist(label_1['Reconstruction Loss'].values, density=False, bins=30, color='blue')
-plt.hist(label_0['Reconstruction Loss'].values, density=False, bins=30, color='yellow')
+plt.hist(label_0['Reconstruction Loss'].values, density=False, bins=30, alpha = 0.5, color='yellow')
 plt.xlabel('MSE')
 plt.ylabel('Frequency')
 plt.savefig('errordist.png')
