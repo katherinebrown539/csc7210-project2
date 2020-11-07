@@ -14,7 +14,7 @@ from DiabetesData import DiabeticData
 
 # define the NN architecture
 class ConvAutoencoder(nn.Module):
-    def __init__(self, device="cpu"):
+    def __init__(self, device="cpu", task='task'):
         super(ConvAutoencoder, self).__init__()
         ## encoder layers ##
         start_size = 3
@@ -67,6 +67,7 @@ class ConvAutoencoder(nn.Module):
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
         self.criterion = nn.BCELoss() # nn.BCELoss()
         self.device = device
+        self.task = task
         
 
     def forward(self, x):
@@ -116,3 +117,4 @@ class ConvAutoencoder(nn.Module):
                 epoch, 
                 train_loss
                 ))
+            torch.save(self.state_dict(), "../models/ConvAE_{0}_{1}.pth".format(self.task,epoch))
