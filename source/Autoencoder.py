@@ -137,7 +137,7 @@ class ConvAutoencoder(nn.Module):
                     loss.backward()
                     val_loss += loss.item()*images.size(0)
             history["validation_loss"].append(val_loss)
-            self.visualize(history)
+        self.visualize(history)
 
     def visualize(self, history):
         plt.plot(history['training_loss'])
