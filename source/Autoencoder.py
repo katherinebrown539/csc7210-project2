@@ -80,8 +80,11 @@ class ConvAutoencoder(nn.Module):
 
         return x
 
-    def fit(self, n_epochs, train_loader):
+    def fit(self, n_epochs, train_loader, validation_loader=None):
         print("in fit function")
+        history = {}
+        history["training_loss"] = []
+        history["validation_loss"] = []
         for epoch in range(1, n_epochs+1):
             print("Epoch: {0}".format(epoch))
             # monitor training loss
@@ -112,9 +115,35 @@ class ConvAutoencoder(nn.Module):
                     train_loss += loss.item()*images.size(0)
                     pbar.update(1)
             # print avg training statistics 
-            train_loss = train_loss/len(train_loader)
+            history["training_loss"].append(train_loss/len(train_loader))
+            train_loss.append(train_loss)
             print('Epoch: {} \tTraining Loss: {:.6f}'.format(
                 epoch, 
                 train_loss
                 ))
             torch.save(self.state_dict(), "models/ConvAE_{0}_{1}.pth".format(self.task,epoch))
+
+            for data in validation_loader:
+                images, _ = data
+                images = images.to(self.device)
+                # clear the gradients of all optimized variables
+                self.optimizer.zero_grad()
+                # forward pass: compute predicted outputs by passing inputs to the model
+                outputs = self.forward(images)
+                # calculate the loss
+                loss = self.criterion(outputs, images)
+                # backward pass: compute gradient of the loss with respect to model parameters
+                loss.backward()
+                val_loss += loss.item()*images.size(0)
+            history["validation_loss"].append(val_loss)
+            self.visualize(history)
+
+    def visualize(self, history):
+        plt.plot(history.history['training_loss'])
+        plt.plot(history.history['validation_loss'])
+        plt.title('model loss')
+        plt.ylabel('loss')
+        plt.xlabel('epoch')
+        plt.legend(['train', 'val'], loc='upper left')
+        plt.savefig("training_{0}.png".format(self.task))
+        plt.clf()
