@@ -25,7 +25,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 datatype="diabetes"
 batch_size=16
-epochs = 1
+epochs = 25
 
 normalize=False
 size=100
@@ -54,7 +54,7 @@ elif datatype == "dogcat":
     # task = ([0,1,2], (3,4))
 
     train = pd.read_csv("data/dogcat_ad_train.csv")
-    valid = pd.read_csv("data/dogcat_ad_valid.csv")
+    val = pd.read_csv("data/dogcat_ad_valid.csv")
     test = pd.read_csv("data/dogcat_ad_test.csv")
 
     data = {'train': DogCatData(df = train, transform_key="train", root_dir=root_dir, normalize = normalize),

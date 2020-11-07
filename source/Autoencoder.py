@@ -117,4 +117,4 @@ class ConvAutoencoder(nn.Module):
                 epoch, 
                 train_loss
                 ))
-            torch.save(self.state_dict(), "../models/ConvAE_{0}_{1}.pth".format(self.task,epoch))
+            torch.save(self.state_dict(), "models/ConvAE_{0}_{1}.pth".format(self.task,epoch))
