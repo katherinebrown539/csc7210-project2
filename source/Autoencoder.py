@@ -117,7 +117,6 @@ class ConvAutoencoder(nn.Module):
             # print avg training statistics 
             train_loss = train_loss/len(train_loader)
             history["training_loss"].append(train_loss)
-            train_loss.append(train_loss)
             print('Epoch: {} \tTraining Loss: {:.6f}'.format(
                 epoch, 
                 train_loss
