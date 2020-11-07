@@ -89,7 +89,7 @@ class ConvAutoencoder(nn.Module):
             print("Epoch: {0}".format(epoch))
             # monitor training loss
             train_loss = 0.0
-            
+            val_loss = 0.0
             ###################
             # train the model #
             ###################
@@ -123,18 +123,19 @@ class ConvAutoencoder(nn.Module):
                 ))
             torch.save(self.state_dict(), "models/ConvAE_{0}_{1}.pth".format(self.task,epoch))
 
-            for data in validation_loader:
-                images, _ = data
-                images = images.to(self.device)
-                # clear the gradients of all optimized variables
-                self.optimizer.zero_grad()
-                # forward pass: compute predicted outputs by passing inputs to the model
-                outputs = self.forward(images)
-                # calculate the loss
-                loss = self.criterion(outputs, images)
-                # backward pass: compute gradient of the loss with respect to model parameters
-                loss.backward()
-                val_loss += loss.item()*images.size(0)
+            if validation_loader is not Noe:
+                for data in validation_loader:
+                    images, _ = data
+                    images = images.to(self.device)
+                    # clear the gradients of all optimized variables
+                    self.optimizer.zero_grad()
+                    # forward pass: compute predicted outputs by passing inputs to the model
+                    outputs = self.forward(images)
+                    # calculate the loss
+                    loss = self.criterion(outputs, images)
+                    # backward pass: compute gradient of the loss with respect to model parameters
+                    loss.backward()
+                    val_loss += loss.item()*images.size(0)
             history["validation_loss"].append(val_loss)
             self.visualize(history)
 
