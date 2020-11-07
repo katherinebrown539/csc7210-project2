@@ -23,7 +23,7 @@ from DogCatData import DogCatData
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-datatype="diabetes"
+datatype="dogcat"
 batch_size=16
 epochs = 15
 
