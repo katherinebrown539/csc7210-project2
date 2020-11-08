@@ -29,21 +29,30 @@ from DiabetesData import DiabeticData
 
 
 
-
+t = 2
 task = ([0,1], (2,3,4))
 batch_size=16
-epochs = 15
+epochs = 1
 root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
 data = pd.read_csv("data/trainLabels.csv")
 
-train, test = train_test_split(data, test_size=0.1)
-train, val = train_test_split(train, test_size=0.1)
+train = pd.read_csv("data/diabetes_ad_train.csv")
+valid = pd.read_csv("data/diabetes_ad_valid.csv")
+test = pd.read_csv("data/diabetes_ad_test.csv")
 
-train = train.reset_index()
-test = test.reset_index()
-val = val.reset_index()
+# zeroes = data[data['level'] == 0]
+# ones = data[data['level'] == 4]
+# data = pd.concat([zeroes,ones])
+# data = data.sample(frac=1)
+
+# train, test = train_test_split(data, test_size=0.1)
+# train, val = train_test_split(train, test_size=0.1)
+
+# train = train.reset_index()
+# test = test.reset_index()
+# val = val.reset_index()
 
 data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task),
         'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task),
@@ -57,16 +66,23 @@ dataloaders = {
 } 
 
 
-model = DiabetesModel()
+model = DiabetesModel(measure_uncertainty=True)
 
 model.fit(dataloaders['train'], n_epochs=epochs)
-pred, true = model.predict(dataloaders['test'])
+preds = []
+trues = []
+for i in range(t):
+        pred, true = model.predict(dataloaders['test'])
+        if i == 1: trues.extend(true)
+        preds.append(pred)
+preds = np.asarray(preds)
+print(preds.shape)
 
-labels = [p >= 0.5 for p in pred]
-dist = collections.Counter(labels)
-print(dist)
-print("Accuracy: ", accuracy_score(true, labels))
-print("Recall: ", recall_score(true, labels))
-print("Precision: ", precision_score(true, labels))
-print("F1: ", f1_score(true, labels))
-print("AUC: ", roc_auc_score(true, pred))
+# labels = [p >= 0.5 for p in pred]
+# dist = collections.Counter(labels)
+# print(dist)
+# print("Accuracy: ", accuracy_score(true, labels))
+# print("Recall: ", recall_score(true, labels))
+# print("Precision: ", precision_score(true, labels))
+# print("F1: ", f1_score(true, labels))
+# print("AUC: ", roc_auc_score(true, pred))

@@ -24,21 +24,31 @@ import matplotlib.pyplot as plt
 
 
 class DiabetesModel(nn.Module):
-    def __init__(self):
+    def __init__(self, measure_uncertainty=True):
         super(DiabetesModel, self).__init__()
         self.model = models.densenet121(pretrained=True)
-        self.model.classifier = nn.Linear(1024, 2)
+        self.model.classifier = nn.Linear(1024, 1024)
+        self.fc_layers = nn.ModuleList([
+            nn.Linear(1024,512),
+            nn.Linear(512,256)
+        ])               
+        self.classifier_layer = nn.Linear(256, 2)
         self.device = 'cpu'
         if torch.cuda.is_available():
             self.to('cuda')
             self.device = 'cuda'
         print(self.device)
         self.criterion = nn.CrossEntropyLoss()
+        self.measure_uncertainty= measure_uncertainty
         self.optimizer = optim.SGD(self.parameters(), lr=0.0005, momentum=0.985, nesterov=True)
         summary(self.model, input_size=(3,224,224))
     def forward(self, x):
         x = self.model(x)
-        # x = F.relu(x)
+        for layer in self.fc_layers:
+            x = layer(x)
+            x = F.relu(x)
+            x = F.dropout(x, p=0.5, training=self.measure_uncertainty)
+        x = self.classifier_layer(x)
         return x
 
     def fit(self, train_generator, validation_generator=None, n_epochs=50):
