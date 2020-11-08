@@ -20,16 +20,17 @@ os.sys.path.insert(0, ".")
 from DiabetesData import DiabeticData
 from Autoencoder import ConvAutoencoder
 from ConvVarAutoencoder import ConvVAE
+from VGGAutoencoder import VGGAutoencoder
 from DogCatData import DogCatData
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-datatype="fruit"
+datatype="diabetes"
 batch_size=16
-epochs = 500
-model_file="models/ConvAE_fruit_21.pth"
+epochs = 300
+model_file=""
 normalize=False
-size=100
+size=96
 
 if datatype == "diabetes":
     filename = "data/trainLabels_ad.csv"
@@ -90,7 +91,7 @@ print(test.shape)
 
 
 # model = ConvVAE(1000, device)
-model = ConvAutoencoder(device, task=datatype)
+model = VGGAutoencoder(device, task=datatype)
 if model_file != "":
     model.load_state_dict(torch.load(model_file))
 print(model)

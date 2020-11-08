@@ -163,11 +163,8 @@ class VGGAutoencoder(nn.Module):
             # print avg training statistics 
             train_loss = train_loss/len(train_loader)
             history["training_loss"].append(train_loss)
-            print('Epoch: {} \tTraining Loss: {:.6f}'.format(
-                epoch, 
-                train_loss
-                ))
-            torch.save(self.state_dict(), "models/ConvAE_{0}_{1}.pth".format(self.task,epoch))
+            
+            torch.save(self.state_dict(), "models/VGGAE_{0}_{1}.pth".format(self.task,epoch))
 
             if validation_loader is not None:
                 for data in validation_loader:
@@ -183,6 +180,11 @@ class VGGAutoencoder(nn.Module):
                     loss.backward()
                     val_loss += loss.item()*images.size(0)
             history["validation_loss"].append(val_loss)
+            print('Epoch: {0} \tTraining Loss: {1}\tValidation Loss: {2}'.format(
+                epoch, 
+                train_loss,
+                val_loss
+                ))
         self.visualize(history)
 
     def visualize(self, history):
