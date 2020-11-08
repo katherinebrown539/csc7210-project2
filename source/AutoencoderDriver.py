@@ -10,6 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
+from collections import Counter
 from torch.utils.data.sampler import SubsetRandomSampler
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
