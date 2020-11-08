@@ -25,8 +25,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 datatype="fruit"
 batch_size=16
-epochs = 100
-
+epochs = 500
+model_file="models/ConvAE_fruit_21.pth"
 normalize=False
 size=100
 
@@ -90,6 +90,8 @@ print(test.shape)
 
 # model = ConvVAE(1000, device)
 model = ConvAutoencoder(device, task=datatype)
+if model_file != "":
+    model.load_state_dict(torch.load(model_file))
 print(model)
 
 model.fit(epochs, dataloaders["train"])
