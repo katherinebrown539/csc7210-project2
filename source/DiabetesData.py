@@ -90,19 +90,19 @@ class DiabeticData(Dataset):
                 "train":
                 transforms.Compose([
                 transforms.Resize(128),
-                transforms.CenterCrop(100),
+                transforms.CenterCrop(96),
                 transforms.ToTensor()
             ]),
                 "valid":
                 transforms.Compose([
                 transforms.Resize(128),
-                transforms.CenterCrop(100),
+                transforms.CenterCrop(96),
                 transforms.ToTensor()
             ]),
                 "test":
                 transforms.Compose([
                 transforms.Resize(128),
-                transforms.CenterCrop(100),
+                transforms.CenterCrop(96),
                 transforms.ToTensor()
             ])
             } 

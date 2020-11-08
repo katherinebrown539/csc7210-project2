@@ -88,19 +88,19 @@ class DogCatData(Dataset):
                 "train":
                 transforms.Compose([
                 transforms.Resize(128),
-                transforms.CenterCrop(100),
+                transforms.CenterCrop(96),
                 transforms.ToTensor()
             ]),
                 "valid":
                 transforms.Compose([
                 transforms.Resize(128),
-                transforms.CenterCrop(100),
+                transforms.CenterCrop(96),
                 transforms.ToTensor()
             ]),
                 "test":
                 transforms.Compose([
                 transforms.Resize(128),
-                transforms.CenterCrop(100),
+                transforms.CenterCrop(96),
                 transforms.ToTensor()
             ])
             } 
@@ -128,7 +128,8 @@ class DogCatData(Dataset):
         #print(self.task)
         if torch.is_tensor(idx):
             idx = idx.tolist()
-  
+
+
         image_name = os.path.join(self.root_dir,
                                 self.data_frame.loc[idx, "filename"])
         

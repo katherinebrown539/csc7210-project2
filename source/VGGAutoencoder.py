@@ -107,10 +107,18 @@ class VGGEncoder(nn.Module):
 
 
 class VGGAutoencoder(nn.Module):
-    def __init__(self, channels=3):
-        super(ConvAutoEncoder, self).__init__()
+    def __init__(self, channels=3, device="cpu", task="task"):
+        super(VGGAutoencoder, self).__init__()
+        self.task = task
+        self.device = device
         self.enc = VGGEncoder("VGG16")
         self.dec = Decoder(channels)
+        self.enc.to(self.device)
+        self.dec.to(self.device)
+        self.to(self.device)
+
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
+        self.criterion = nn.MSELoss() # nn.BCELoss()
 
     def forward(self, x):
         x = self.enc(x)
@@ -176,3 +184,13 @@ class VGGAutoencoder(nn.Module):
                     val_loss += loss.item()*images.size(0)
             history["validation_loss"].append(val_loss)
         self.visualize(history)
+
+    def visualize(self, history):
+        plt.plot(history['training_loss'])
+        plt.plot(history['validation_loss'])
+        plt.title('model loss')
+        plt.ylabel('loss')
+        plt.xlabel('epoch')
+        plt.legend(['train', 'val'], loc='upper left')
+        plt.savefig("training_{0}.png".format(self.task))
+        plt.clf()
