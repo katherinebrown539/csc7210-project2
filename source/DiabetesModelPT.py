@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 
 
 class DiabetesModel(nn.Module):
-    def __init__(self, measure_uncertainty=True):
+    def __init__(self, measure_uncertainty=True, task = "diabetes"):
         super(DiabetesModel, self).__init__()
         self.model = models.densenet121(pretrained=True)
         self.model.classifier = nn.Linear(1024, 1024)
@@ -38,10 +38,12 @@ class DiabetesModel(nn.Module):
             self.to('cuda')
             self.device = 'cuda'
         print(self.device)
+        self.task = task
         self.criterion = nn.CrossEntropyLoss()
         self.measure_uncertainty= measure_uncertainty
         self.optimizer = optim.SGD(self.parameters(), lr=0.0005, momentum=0.985, nesterov=True)
         summary(self.model, input_size=(3,224,224))
+        
     def forward(self, x):
         x = self.model(x)
         for layer in self.fc_layers:
@@ -63,6 +65,7 @@ class DiabetesModel(nn.Module):
                     loss.backward()
                     self.optimizer.step()
                     pbar.update(1)
+            torch.save(self.state_dict(), "models/DenseNet_{0}_{1}.pth".format(self.task,epoch))
                 
     def predict(self, generator):
         self.eval()

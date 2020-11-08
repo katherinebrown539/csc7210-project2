@@ -23,9 +23,9 @@ from DogCatData import DogCatData
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
-datatype="diabetes"
+datatype="fruit"
 batch_size=16
-epochs = 15
+epochs = 100
 
 normalize=False
 size=100
@@ -58,6 +58,20 @@ elif datatype == "dogcat":
     val = pd.read_csv("data/dogcat_ad_valid.csv")
     test = pd.read_csv("data/dogcat_ad_test.csv")
 
+    data = {'train': DogCatData(df = train, transform_key="train", root_dir=root_dir, normalize = normalize),
+            'valid': DogCatData(df = val, transform_key="valid", root_dir=root_dir, normalize = normalize),
+            'test': DogCatData(df = test, transform_key="test", root_dir=root_dir, normalize = normalize)
+            }
+
+elif datatype == "fruit":
+    classes = ["apple", "banana"]
+    root_dir="data/Fruit-Images-Dataset-master"
+    train = pd.read_csv("data/fruit_ad_train.csv")
+    val = pd.read_csv("data/fruit_ad_valid.csv")
+    test = pd.read_csv("data/fruit_ad_test.csv")
+    print(Counter(train['text_label']))
+    print(Counter(val['text_label']))
+    print(Counter(test['text_label']))
     data = {'train': DogCatData(df = train, transform_key="train", root_dir=root_dir, normalize = normalize),
             'valid': DogCatData(df = val, transform_key="valid", root_dir=root_dir, normalize = normalize),
             'test': DogCatData(df = test, transform_key="test", root_dir=root_dir, normalize = normalize)

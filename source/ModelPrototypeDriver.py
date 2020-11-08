@@ -29,17 +29,18 @@ from DiabetesData import DiabeticData
 
 
 
-t = 2
-task = ([0,1], (2,3,4))
+t = 25
+task = ([0], [4])
+# task = ([0,1], (2,3,4))
 batch_size=16
-epochs = 1
+epochs = 20
 root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
 data = pd.read_csv("data/trainLabels.csv")
 
 train = pd.read_csv("data/diabetes_ad_train.csv")
-valid = pd.read_csv("data/diabetes_ad_valid.csv")
+val = pd.read_csv("data/diabetes_ad_valid.csv")
 test = pd.read_csv("data/diabetes_ad_test.csv")
 
 # zeroes = data[data['level'] == 0]
@@ -69,6 +70,23 @@ dataloaders = {
 model = DiabetesModel(measure_uncertainty=True)
 
 model.fit(dataloaders['train'], n_epochs=epochs)
+
+
+
+preds = []
+trues = []
+for i in range(t):
+        pred, true = model.predict(dataloaders['valid'])
+        if i == 1: trues.extend(true)
+        preds.append(pred)
+preds = np.asarray(preds)
+unc = np.std(preds,axis=0)
+
+df = pd.DataFrame([trues,unc])
+df = df.T
+df.columns = ["label", "uncertainty"]
+df.to_csv("DenseNet_VALIDATION.csv")
+
 preds = []
 trues = []
 for i in range(t):
@@ -76,7 +94,23 @@ for i in range(t):
         if i == 1: trues.extend(true)
         preds.append(pred)
 preds = np.asarray(preds)
-print(preds.shape)
+unc = np.std(preds,axis=0)
+
+df = pd.DataFrame([trues,unc])
+df = df.T
+df.columns = ["label", "uncertainty"]
+df.to_csv("DenseNet_TEST.csv")
+
+# preds = []
+# trues = []
+# for i in range(t):
+#         pred, true = model.predict(dataloaders['test'])
+#         if i == 1: trues.extend(true)
+#         preds.append(pred)
+# preds = np.asarray(preds)
+# print(preds.shape)
+# print(preds)
+# print(np.std(preds,axis=0))
 
 # labels = [p >= 0.5 for p in pred]
 # dist = collections.Counter(labels)
