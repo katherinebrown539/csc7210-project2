@@ -34,16 +34,16 @@ size=96
 
 if datatype == "diabetes":
     filename = "data/trainLabels_ad.csv"
-    root_dir = "data/diabetes"
+    root_dir = "data/diabetes_resized"
     task = ([0],[4])
     classes = ['none', 'proliferative']
     # task = ([0,1,2], [3,4])
     # task = ([0,1,2], (3,4))
-    train = train.sample(frac=0.25)
-    train = train.reset_index()
     train = pd.read_csv("data/diabetes_ad_train.csv")
     val = pd.read_csv("data/diabetes_ad_valid.csv")
     test = pd.read_csv("data/diabetes_ad_test.csv")
+    train = train.sample(frac=0.25)
+    train = train.reset_index()
 
     data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task, normalize = normalize),
             'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task, normalize = normalize),
