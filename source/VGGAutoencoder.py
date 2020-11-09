@@ -14,7 +14,7 @@ from DiabetesData import DiabeticData
 
 
 VGG_type = {
-    "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512],
+    "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M", 1024, 1024, 1024],
     "VGG13": [64, 64, "M", 128, 128, "M", 256, 256, "M", 512, 512, "M", 512, 512],
     "VGG16": [64,64,"M",128,128,"M",256,256,256,"M",512,512,512,"M",512,512,512,],
     "VGG19": [64,64,"M",28,128,"M",256,256,256,256,"M",512,512,512,512,"M",512,512,512,512]
@@ -23,6 +23,15 @@ VGG_type = {
 class Decoder(nn.Module):
     def __init__(self, out_channels=3):
         super(Decoder, self).__init__()
+
+        self.upconv0 = nn.ConvTranspose2d(
+            in_channels=1024,
+            out_channels=512,
+            kernel_size=2,
+            stride=2,
+            padding=0,
+        )
+
         self.upconv1 = nn.ConvTranspose2d(
             in_channels=512,
             out_channels=256,
@@ -48,6 +57,7 @@ class Decoder(nn.Module):
             padding=0,
         )
 
+        self.bn0 = nn.BatchNorm2d(512)
         self.bn1 = nn.BatchNorm2d(256)
         self.bn2 = nn.BatchNorm2d(128)
         self.bn3 = nn.BatchNorm2d(64)
@@ -55,6 +65,8 @@ class Decoder(nn.Module):
         self.op = nn.Sigmoid()
 
     def forward(self, x):
+        x = self.relu(self.upconv0(x))
+        x = self.bn0(x)
         x = self.relu(self.upconv1(x))
         x = self.bn1(x)
         x = self.relu(self.upconv2(x))
