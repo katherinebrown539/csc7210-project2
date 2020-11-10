@@ -25,15 +25,15 @@ class Decoder(nn.Module):
         super(Decoder, self).__init__()
 
         self.upconv0 = nn.ConvTranspose2d(
-            in_channels=1024,
-            out_channels=512,
+            in_channels=64,
+            out_channels=128,
             kernel_size=2,
             stride=2,
             padding=0,
         )
 
         self.upconv1 = nn.ConvTranspose2d(
-            in_channels=512,
+            in_channels=128,
             out_channels=256,
             kernel_size=2,
             stride=2,
@@ -41,26 +41,30 @@ class Decoder(nn.Module):
         )
         self.upconv2 = nn.ConvTranspose2d(
             in_channels=256,
-            out_channels=128,
+            out_channels=512,
             kernel_size=2,
             stride=2,
             padding=0,
         )
         self.upconv3 = nn.ConvTranspose2d(
-            in_channels=128, out_channels=64, kernel_size=2, stride=2, padding=0
+            in_channels=512, out_channels=1024, kernel_size=2, stride=2, padding=0
         )
         self.upconv4 = nn.ConvTranspose2d(
-            in_channels=64,
+            in_channels=1024,
             out_channels=3,
             kernel_size=2,
             stride=2,
             padding=0,
         )
 
-        self.bn0 = nn.BatchNorm2d(512)
+        self.bn0 = nn.BatchNorm2d(128)
         self.bn1 = nn.BatchNorm2d(256)
-        self.bn2 = nn.BatchNorm2d(128)
-        self.bn3 = nn.BatchNorm2d(64)
+        self.bn2 = nn.BatchNorm2d(512)
+        self.bn3 = nn.BatchNorm2d(1024)
+        # self.bn0 = nn.BatchNorm2d(512)
+        # self.bn1 = nn.BatchNorm2d(256)
+        # self.bn2 = nn.BatchNorm2d(128)
+        # self.bn3 = nn.BatchNorm2d(64)
         self.relu = nn.LeakyReLU(0.2)
         self.op = nn.Sigmoid()
 
@@ -83,7 +87,7 @@ class VGGEncoder(nn.Module):
     def __init__(self, vgg_version="VGG16", in_channels=3):
         super(VGGEncoder, self).__init__()
         self.in_channels = in_channels
-        self.conv_layers = self.create_conv(VGG_type[vgg_version])
+        self.conv_layers = self.create_conv(VGG_type[vgg_version].reverse())
         # after completing all the conv layer the final matrix will be [ bs , 512, 7 , 7]
 
     def forward(self, x):
