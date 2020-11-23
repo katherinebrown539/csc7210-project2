@@ -27,14 +27,14 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 datatype="diabetes"
 batch_size=16
-epochs = 1000
+epochs = 5
 model_file=""
 normalize=False
 size=96
 
 if datatype == "diabetes":
     filename = "data/trainLabels_ad.csv"
-    root_dir = "data/diabetes_resized"
+    root_dir = "data/diabetes"
     task = ([0],[4])
     classes = ['none', 'proliferative']
     # task = ([0,1,2], [3,4])

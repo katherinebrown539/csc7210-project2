@@ -30,49 +30,22 @@ class Unflatten(nn.Module):
 
 
 # define the NN architecture
+# define the NN architecture
 class ConvAutoencoder(nn.Module):
     def __init__(self, device="cpu", task='task'):
         super(ConvAutoencoder, self).__init__()
         ## encoder layers ##
-        self.encoder = nn.ModuleList([
-            nn.Conv2d(3, 512, 3, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d(2,2),
-            nn.Conv2d(512, 4, 3, padding=1),
-            nn.ReLU(),
-            nn.MaxPool2d(2,2),
-            Flatten(),
-            nn.Linear(2304, 1024),
-            nn.ReLU(),
-            nn.Linear(1024, 512),
-            nn.ReLU()
-            ])
-
-
-        self.decoder = nn.ModuleList([
-            nn.Linear(512, 1024),
-            nn.ReLU(),
-            nn.Linear(1024, 2304),
-            Unflatten(4, 96,96),
-            nn.ConvTranspose2d(4, 512, 2, stride=2),
-            nn.ReLU(),
-            nn.ConvTranspose2d(512, 3, 2, stride=2),
-            nn.Sigmoid()
-            ])
-
-        # # conv layer (depth from 3 --> 16), 3x3 kernels
-        # self.conv1 = nn.Conv2d(3, 512, 3, padding=1)  
-        # # conv layer (depth from 16 --> 4), 3x3 kernels
-        # self.conv2 = nn.Conv2d(512, 4, 3, padding=1)
-        # # pooling layer to reduce x-y dims by two; kernel and stride of 2
-        # self.pool = nn.MaxPool2d(2, 2)
+        # conv layer (depth from 3 --> 16), 3x3 kernels
+        self.conv1 = nn.Conv2d(3, 512, 3, padding=1)  
+        # conv layer (depth from 16 --> 4), 3x3 kernels
+        self.conv2 = nn.Conv2d(512, 4, 3, padding=1)
+        # pooling layer to reduce x-y dims by two; kernel and stride of 2
+        self.pool = nn.MaxPool2d(2, 2)
         
-        # self.fc_1 = nn.Linear()
-
-        # ## decoder layers ##
-        # ## a kernel of 2 and a stride of 2 will increase the spatial dims by 2
-        # self.t_conv1 = nn.ConvTranspose2d(4, 512, 2, stride=2)
-        # self.t_conv2 = nn.ConvTranspose2d(512, 3, 2, stride=2)
+        ## decoder layers ##
+        ## a kernel of 2 and a stride of 2 will increase the spatial dims by 2
+        self.t_conv1 = nn.ConvTranspose2d(4, 512, 2, stride=2)
+        self.t_conv2 = nn.ConvTranspose2d(512, 3, 2, stride=2)
         
         self.to(device)
         self.optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
@@ -82,26 +55,21 @@ class ConvAutoencoder(nn.Module):
         
 
     def forward(self, x):
-        for layer in self.encoder:
-            print(layer)
-            x = layer(x)
-        for layer in self.decoder:
-            print(layer)
-            x = layer(x)
-        # ## encode ##
-        # # add hidden layers with relu activation function
-        # # and maxpooling after
-        # x = F.relu(self.conv1(x))
-        # x = self.pool(x)
-        # # add second hidden layer
-        # x = F.relu(self.conv2(x))
-        # x = self.pool(x)  # compressed representation
+
+        ## encode ##
+        # add hidden layers with relu activation function
+        # and maxpooling after
+        x = F.relu(self.conv1(x))
+        x = self.pool(x)
+        # add second hidden layer
+        x = F.relu(self.conv2(x))
+        x = self.pool(x)  # compressed representation
         
-        # ## decode ##
-        # # add transpose conv layers, with relu activation function
-        # x = F.relu(self.t_conv1(x))
-        # # output layer (with sigmoid for scaling from 0 to 1)
-        # x = F.sigmoid(self.t_conv2(x))
+        ## decode ##
+        # add transpose conv layers, with relu activation function
+        x = F.relu(self.t_conv1(x))
+        # output layer (with sigmoid for scaling from 0 to 1)
+        x = F.sigmoid(self.t_conv2(x))
                 
         return x
 

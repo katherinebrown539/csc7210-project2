@@ -30,10 +30,10 @@ class ConvVAE(nn.Module):
         self.encoder = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.Conv2d(64, 32, kernel_size=3, padding=1),
             nn.ReLU(),
             Flatten(),
-            nn.Linear(1179648, 1024),
+            nn.Linear(294912, 1024),
             nn.ReLU()
         )
 
@@ -46,11 +46,11 @@ class ConvVAE(nn.Module):
         self.decoder = nn.Sequential(
             nn.Linear(self.latent_size, 1024),
             nn.ReLU(),
-            nn.Linear(1024, 1179648),
+            nn.Linear(1024, 294912),
             nn.ReLU(),
-            Unflatten(128, 96, 96),
+            Unflatten(32, 96, 96),
             nn.ReLU(),
-            nn.ConvTranspose2d(128, 64, kernel_size=3, padding=1),
+            nn.ConvTranspose2d(32, 64, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.ConvTranspose2d(64, 3, kernel_size=3, padding=1),
             nn.Sigmoid()

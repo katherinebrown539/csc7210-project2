@@ -14,7 +14,8 @@ from DiabetesData import DiabeticData
 
 
 VGG_type = {
-    "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M", 1024, 1024, 1024],
+    "Custom": [64, "M", 128, "M", 256, "M", 512, "M", 512, "M", 1024],
+    "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M", 1024, 1024],
     "VGG13": [64, 64, "M", 128, 128, "M", 256, 256, "M", 512, 512, "M", 512, 512],
     "VGG16": [64,64,"M",128,128,"M",256,256,256,"M",512,512,512,"M",512,512,512,1024,1024,1024],
     "VGG19": [64,64,"M",28,128,"M",256,256,256,256,"M",512,512,512,512,"M",512,512,512,512,1024,1024,1024,1024]
@@ -47,7 +48,11 @@ class Decoder(nn.Module):
             padding=0,
         )
         self.upconv3 = nn.ConvTranspose2d(
-            in_channels=512, out_channels=1024, kernel_size=2, stride=2, padding=0
+            in_channels=512, 
+            out_channels=1024, 
+            kernel_size=2, 
+            stride=2, 
+            padding=0
         )
         self.upconv4 = nn.ConvTranspose2d(
             in_channels=1024,
@@ -87,7 +92,9 @@ class VGGEncoder(nn.Module):
     def __init__(self, vgg_version="VGG16", in_channels=3):
         super(VGGEncoder, self).__init__()
         self.in_channels = in_channels
-        self.conv_layers = self.create_conv(VGG_type[vgg_version].reverse())
+        arch = VGG_type[vgg_version]
+        arch.reverse()
+        self.conv_layers = self.create_conv(arch)
         # after completing all the conv layer the final matrix will be [ bs , 512, 7 , 7]
 
     def forward(self, x):
@@ -127,7 +134,7 @@ class VGGAutoencoder(nn.Module):
         super(VGGAutoencoder, self).__init__()
         self.task = task
         self.device = device
-        self.enc = VGGEncoder("VGG16")
+        self.enc = VGGEncoder("Custom")
         self.dec = Decoder(channels)
         self.enc.to(self.device)
         self.dec.to(self.device)
