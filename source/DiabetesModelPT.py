@@ -53,6 +53,8 @@ class DiabetesModel(nn.Module):
         x = self.classifier_layer(x)
         return x
 
+    
+
     def fit(self, train_generator, validation_generator=None, n_epochs=50):
         for epoch in range(n_epochs):
             self.train()

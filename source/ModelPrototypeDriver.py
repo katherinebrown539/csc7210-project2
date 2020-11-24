@@ -34,7 +34,7 @@ task = ([0], [4])
 # task = ([0,1], (2,3,4))
 batch_size=16
 epochs = 20
-root_dir = "data/diabetes"
+root_dir = "data/diabetes_resized"
 # task = ([0,1,2], (3,4))
 
 data = pd.read_csv("data/trainLabels.csv")
