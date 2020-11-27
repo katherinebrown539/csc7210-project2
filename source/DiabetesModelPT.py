@@ -29,7 +29,7 @@ class DiabetesModel(nn.Module):
         self.model_type = "VGG16"
         self.model = models.vgg16(pretrained=True)
         # self.model.classifier = nn.Linear(1024, 1024) #densenet121
-        self.model.classifier = None
+        self.model.classifier = Identity()
         self.fc_layers = nn.ModuleList([
             nn.Linear(25088, 1024),
             nn.Linear(1024,512),
