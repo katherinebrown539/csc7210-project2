@@ -82,7 +82,6 @@ print(preds.shape)
 print(preds)
 print(np.std(preds,axis=0))
 
-labels = [p >= 0.5 for p in pred]
 dist = collections.Counter(labels)
 print(dist)
 print("Accuracy: ", accuracy_score(true, labels))
