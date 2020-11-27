@@ -26,12 +26,12 @@ import matplotlib.pyplot as plt
 class DiabetesModel(nn.Module):
     def __init__(self, measure_uncertainty=True, task = "diabetes"):
         super(DiabetesModel, self).__init__()
-        self.model_type = "VGG16"
-        self.model = models.vgg16(pretrained=True)
+        self.model_type = "Densenet121_newtest"
+        self.model = models.densenet121(pretrained=True)
         # self.model.classifier = nn.Linear(1024, 1024) #densenet121
         self.model.classifier = nn.Identity()
         self.fc_layers = nn.ModuleList([
-            nn.Linear(25088, 1024),
+            # nn.Linear(25088, 1024),
             nn.Linear(1024,512),
             nn.Linear(512,256)
         ])               

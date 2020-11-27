@@ -33,26 +33,27 @@ t = 25
 task = ([0], [4])
 # task = ([0,1], (2,3,4))
 batch_size=16
-epochs = 20
-root_dir = "data/diabetes_resized"
+epochs = 15
+root_dir = "data/diabetes"
 # task = ([0,1,2], (3,4))
 
-data = pd.read_csv("data/trainLabels.csv")
+train = pd.read_csv("data/diabetes_ad_train.csv")
+val = pd.read_csv("data/diabetes_ad_valid.csv")
+test = pd.read_csv("data/diabetes_ad_test.csv")
 
+# data = pd.read_csv("data/trainLabels.csv")
 
+# zeroes = data[data['level'] == 0]
+# ones = data[data['level'] == 4]
+# data = pd.concat([zeroes,ones])
+# data = data.sample(frac=1)
 
+# train, test = train_test_split(data, test_size=0.1)
+# train, val = train_test_split(train, test_size=0.1)
 
-zeroes = data[data['level'] == 0]
-ones = data[data['level'] == 4]
-data = pd.concat([zeroes,ones])
-data = data.sample(frac=1)
-
-train, test = train_test_split(data, test_size=0.1)
-train, val = train_test_split(train, test_size=0.1)
-
-train = train.reset_index()
-test = test.reset_index()
-val = val.reset_index()
+# train = train.reset_index()
+# test = test.reset_index()
+# val = val.reset_index()
 
 data = {'train': DiabeticData(df = train, transform_key="train", root_dir=root_dir, task = task),
         'valid': DiabeticData(df = val, transform_key="valid", root_dir=root_dir, task = task),
