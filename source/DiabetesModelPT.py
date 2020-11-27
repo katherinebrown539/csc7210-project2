@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 class DiabetesModel(nn.Module):
     def __init__(self, measure_uncertainty=True, task = "diabetes"):
         super(DiabetesModel, self).__init__()
-        self.model_type = "Densenet121_newtest"
+        self.model_type = "Densenet121_newtest2"
         self.model = models.densenet121(pretrained=True)
         # self.model.classifier = nn.Linear(1024, 1024) #densenet121
         self.model.classifier = nn.Identity()
