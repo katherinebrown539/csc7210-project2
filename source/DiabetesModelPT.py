@@ -26,6 +26,7 @@ import matplotlib.pyplot as plt
 class DiabetesModel(nn.Module):
     def __init__(self, measure_uncertainty=True, task = "diabetes"):
         super(DiabetesModel, self).__init__()
+        self.model_type = "VGG16"
         self.model = models.vgg16(pretrained=True)
         # self.model.classifier = nn.Linear(1024, 1024) #densenet121
         self.model.classifier = None
@@ -69,7 +70,7 @@ class DiabetesModel(nn.Module):
                     loss.backward()
                     self.optimizer.step()
                     pbar.update(1)
-            torch.save(self.state_dict(), "models/DenseNet_{0}_{1}.pth".format(self.task,epoch))
+            torch.save(self.state_dict(), "models/{0}_{1}_{2}.pth".format(self.model_type, self.task,epoch))
                 
     def predict(self, generator):
         self.eval()
