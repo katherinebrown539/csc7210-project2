@@ -69,7 +69,7 @@ dataloaders = {
 
 model = DiabetesModel(measure_uncertainty=False)
 
-model.fit(dataloaders['train'], n_epochs=epochs)
+model.fit(dataloaders['train'], dataloaders['valid'], n_epochs=epochs)
 
 preds = []
 trues = []
