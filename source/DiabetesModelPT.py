@@ -71,7 +71,12 @@ class DiabetesModel(nn.Module):
                     self.optimizer.step()
                     pbar.update(1)
             torch.save(self.state_dict(), "models/{0}_{1}_{2}.pth".format(self.model_type, self.task,epoch))
-                
+            pred_train, true_train = model.predict(train_generator)  
+            pred_train = [int(p >= 0.5) for p in pred_train]    
+            pred_test, true_test = model.predict(validation_generator)      
+            pred_test = [int(p >= 0.5) for p in pred_test]    
+            print("Epoch {0}: Training Accuracy = {1};  Validation Accuracy = {2}".format(epoch, accuracy_score(true_train, pred_train), accuracy_score(true_test, pred_test)))
+            
     def predict(self, generator):
         self.eval()
         # criterion = nn.NLLLoss()
